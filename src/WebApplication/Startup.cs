@@ -42,6 +42,7 @@ namespace WebApplication
             services_.AddDbContext<ApplicationStorageContext>(options_ =>
             {
                 options_.UseSqlite(Configuration["ConnectionStrings:Default"]);
+                
             });
 
             // Register database-specific storage context implementation.
