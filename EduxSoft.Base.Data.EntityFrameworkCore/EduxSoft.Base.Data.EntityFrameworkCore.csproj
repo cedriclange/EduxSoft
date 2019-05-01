@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ExtCore.Data.EntityFramework.Sqlite" Version="4.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EduxSoft.Base.Data.Abstractions\EduxSoft.Base.Data.Abstractions.csproj" />
+    <ProjectReference Include="..\EduxSoft.Base.Data.Entities\EduxSoft.Base.Data.Entities.csproj" />
+  </ItemGroup>
+
+</Project>

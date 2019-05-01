@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Authors>Cedric Mataso</Authors>
+    <Company>LEMONDROP</Company>
+    <Copyright>Copyright © 2019 Lemondrop</Copyright>
+    <Version>1.0</Version>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AssemblyName>EduxSoft.Base</AssemblyName>
+    <RootNamespace>EduxSoft.Base</RootNamespace>
+    <PackageId>EduxSoft.Base</PackageId>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>7</LangVersion>
+    <CodeAnalysisRuleSet>..\..\StyleCopRules.ruleset</CodeAnalysisRuleSet>
+    <RepositoryUrl>https://github.com/SOFTINUX/Base</RepositoryUrl>
+  </PropertyGroup>
+  <ImportGroup Label="Documentation">
+    <Import Project="..\documentation.props" />
+  </ImportGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Styles\**;Scripts\**\*.min.js;Views\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="stylecop.json" />
+    <None Remove="Styles\base.css" />
+    <None Remove="Views\Configuration\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="..\stylecop.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EduxSoft.Base.Data.EntityFrameworkCore\EduxSoft.Base.Data.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\src\SoftinuxBase.Infrastructure\SoftinuxBase.Infrastructure.csproj" />
+    <ProjectReference Include="..\src\SoftinuxBase.Security.Common\SoftinuxBase.Security.Common.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ViewModels\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <DotNetCliToolReference Include="BundlerMinifier.Core" Version="2.9.406" />
+  </ItemGroup>
+
+</Project>
