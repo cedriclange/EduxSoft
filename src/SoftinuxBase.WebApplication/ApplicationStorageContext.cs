@@ -1,6 +1,7 @@
 ﻿// Copyright © 2017-2019 SOFTINUX. All rights reserved.
 // Licensed under the MIT License, Version 2.0. See LICENSE file in the project root for license information.
 
+using EduxSoft.Base.Data.Entities;
 using ExtCore.Data.Abstractions;
 using ExtCore.Data.EntityFramework;
 using Microsoft.AspNetCore.Identity;
@@ -21,7 +22,11 @@ namespace SoftinuxBase.WebApplication
         public DbSet<Permission> Permission { get; set; }
         public DbSet<RolePermission> RolePermission { get; set; }
         public DbSet<UserPermission> UserPermission { get; set; }
-
+        
+        //EduxSoft.Base
+        public DbSet<SchoolInfo> SchoolInfo { get; set; }
+        public DbSet<SectionInfo> SectionInfo { get; set; }
+        public DbSet<ClassInfo> ClassInfo { get; set; }
         public ApplicationStorageContext(DbContextOptions options_)
             : base(options_)
         {
