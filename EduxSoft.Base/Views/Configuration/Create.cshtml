@@ -1,0 +1,13 @@
+﻿@model EduxSoft.Base.ViewModels.Configuration.IndexViewModel
+@using EduxSoft.Base.Models
+@using EduxSoft.Base.Code
+@{ 
+    Layout = null;
+}
+    <form asp-action="NewSchool" role="form">
+        @await Html.PartialAsync("_ModalHeader", new ModalHeader { Heading = "Nouveau Etablissement" });
+        <div class="modal-body">
+
+        </div>
+        @await Html.PartialAsync("_ModalFooter", new ModalFooter { });
+    </form>

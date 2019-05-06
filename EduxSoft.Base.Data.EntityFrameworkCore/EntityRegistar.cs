@@ -13,7 +13,7 @@ namespace EduxSoft.Base.Data.EntityFrameworkCore
         {
             modelbuilder.Entity<SchoolInfo>(etb =>
             {
-                etb.ToTable("tbl_SchoolInfo");
+                
                 etb.HasKey(e => e.Id);
                 etb.Property(e => e.Id).ValueGeneratedOnAdd();
                 etb.Property(e => e.Name)
@@ -26,7 +26,7 @@ namespace EduxSoft.Base.Data.EntityFrameworkCore
             );
             modelbuilder.Entity<SectionInfo>(etb =>
             {
-                etb.ToTable("tbl_SectionInfo");
+                
                 etb.HasKey(e => e.Id);
                 etb.Property(e => e.Id).ValueGeneratedOnAdd();
                 etb.Property(e => e.Name)
@@ -39,7 +39,7 @@ namespace EduxSoft.Base.Data.EntityFrameworkCore
             });
             modelbuilder.Entity<ClassInfo>(etb =>
             {
-                etb.ToTable("ClassInfos");
+                
                 etb.HasKey(e => e.Id);
                 etb.Property(e => e.Id).ValueGeneratedOnAdd();
 

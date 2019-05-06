@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace EduxSoft.Base.Data.EntityFrameworkCore
 {
@@ -20,9 +21,9 @@ namespace EduxSoft.Base.Data.EntityFrameworkCore
             storageContext.Entry(info).State = EntityState.Modified;
         }
 
-        public SchoolInfo WithKey(int id)
+        public SchoolInfo GetOne()
         {
-            return dbSet.Find(id);
+            return dbSet.FirstOrDefault();
         }
     }
 }
