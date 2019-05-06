@@ -10,6 +10,6 @@ namespace EduxSoft.Base.Data.Abstractions
     {
         void Add(SchoolInfo info);
         void Edit(SchoolInfo info);
-        SchoolInfo WithKey(int id);
+        SchoolInfo GetOne();
     }
 }

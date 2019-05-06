@@ -12,7 +12,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <LangVersion>7</LangVersion>
-    <CodeAnalysisRuleSet>..\..\StyleCopRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\StyleCopRules.ruleset</CodeAnalysisRuleSet>
     <RepositoryUrl>https://github.com/SOFTINUX/Base</RepositoryUrl>
   </PropertyGroup>
   <ImportGroup Label="Documentation">
@@ -30,12 +30,10 @@
     <AdditionalFiles Include="..\stylecop.json" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EduxSoft.Base.Data.Abstractions\EduxSoft.Base.Data.Abstractions.csproj" />
     <ProjectReference Include="..\EduxSoft.Base.Data.EntityFrameworkCore\EduxSoft.Base.Data.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\src\SoftinuxBase.Infrastructure\SoftinuxBase.Infrastructure.csproj" />
     <ProjectReference Include="..\src\SoftinuxBase.Security.Common\SoftinuxBase.Security.Common.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />

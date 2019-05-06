@@ -1,10 +1,10 @@
-﻿using SoftinuxBase.Infrastructure;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using SoftinuxBase.Infrastructure;
 using SoftinuxBase.Infrastructure.Interfaces;
 using SoftinuxBase.Security.Common.Attributes;
 using SoftinuxBase.Security.Common.Enums;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
 
 namespace EduxSoft.Base
 {
@@ -12,7 +12,7 @@ namespace EduxSoft.Base
     {
         public IEnumerable<StyleSheet> StyleSheets => new[]
         {
-            new StyleSheet("/Styles.base.css",610),
+            new StyleSheet("/Styles.base.css", 610),
         };
 
         public IEnumerable<Script> Scripts => new Script[]
@@ -26,8 +26,10 @@ namespace EduxSoft.Base
             {
                 MenuItem[] menuItems = new[]
                 {
-                    new MenuItem("/configuration","General", 100, null,new List<PermissionRequirementAttribute>(new []{new PermissionRequirementAttribute(Permission.Admin), } )),
-                    new MenuItem("/configuration/chl","Interne",200, null,new List<PermissionRequirementAttribute>(new []{new PermissionRequirementAttribute(Permission.Admin), new PermissionRequirementAttribute(Permission.Read), new PermissionRequirementAttribute(Permission.Write) } ))
+                    new MenuItem("/configuration", "Information General", 100, null,new List<PermissionRequirementAttribute>(new []{new PermissionRequirementAttribute(Permission.Admin), } )),
+                    new MenuItem("/configuration/section", "Section",200, null,new List<PermissionRequirementAttribute>(new []{new PermissionRequirementAttribute(Permission.Admin),  } )),
+                    new MenuItem("/configuration/classe", "Classe",300, null,new List<PermissionRequirementAttribute>(new []{new PermissionRequirementAttribute(Permission.Admin),  } ))
+
                 };
                 return new MenuGroup[]
                 {

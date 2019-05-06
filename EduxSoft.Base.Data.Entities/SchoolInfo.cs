@@ -11,5 +11,7 @@ namespace EduxSoft.Base.Data.Entities
         public bool IsPrimary { get; set; }
         public bool IsSecondary { get; set; }
         public DateTime Created { get; set; }
+
+      
     }
 }
