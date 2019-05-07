@@ -33,20 +33,22 @@ Information General
                 <dd>
                     @if (Model.SchoolInfo.IsPrimary == true)
                     {
-
+                        <text>OUI</text>
                     }
+                    else { <text>NON</text>}
                 </dd>
                 <dt>Secondaire</dt>
                 <dd>
                     @if (Model.SchoolInfo.IsSecondary == true)
                     {
-
+                        <text>OUI</text>
                     }
+                    else { <text>NON</text>}
                 </dd>
                 <dt>Adresse</dt>
                 <dd>@Model.SchoolInfo.Address</dd>
                 <dt>Date de création</dt>
-                <dd> @Model.SchoolInfo.Created</dd>
+                <dd> @Model.SchoolInfo.Created.ToShortDateString()</dd>
             </dl>
                 }
             </div>

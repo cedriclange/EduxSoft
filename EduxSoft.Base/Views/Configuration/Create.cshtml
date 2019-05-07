@@ -1,10 +1,10 @@
-﻿@model EduxSoft.Base.Data.Entities.SchoolInfo
+﻿@model EduxSoft.Base.ViewModels.Configuration.CreateSchoolModel
 @using EduxSoft.Base.Models
 @using EduxSoft.Base.Code
 @{ 
     Layout = null;
 }
-    <form asp-action="NewSchool" role="form">
+    <form asp-action="AddSchool" role="form" method="post">
         @await Html.PartialAsync("_ModalHeader", new ModalHeader { Heading = "Nouveau Etablissement" });
         <div class="modal-body form-horizontal">
             <div class="row">
@@ -12,7 +12,7 @@
                     <div class="form-group">
                         <label asp-for="@Model.Name" class="col-sm-2 control-label">Nom </label>
                         <div class="col-sm-6">
-                            <input asp-for="@Model.Name" class="form-control admin-label" readonly>
+                            <input asp-for="@Model.Name" class="form-control admin-label">
                         </div>
                     </div>
                     
@@ -31,7 +31,7 @@
                     <div class="form-group">
                         <label asp-for="@Model.Address" class="col-sm-2 control-label">Adresse </label>
                         <div class="col-sm-6">
-                            <input asp-for="@Model.Address" class="form-control admin-label" readonly>
+                            <input asp-for="@Model.Address" class="form-control admin-label">
                         </div>
 
                     </div>
