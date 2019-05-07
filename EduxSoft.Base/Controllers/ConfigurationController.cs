@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using EduxSoft.Base.Data.Abstractions;
+using EduxSoft.Base.Data.Entities;
 using EduxSoft.Base.ViewModels.Configuration;
 using ExtCore.Data.Abstractions;
 using Microsoft.AspNetCore.Mvc;
@@ -33,6 +35,7 @@ namespace EduxSoft.Base.Controllers
             }
             else
             {
+                ViewBag.IsEmpty = false;
                 model.SchoolInfo = mydata;
                 return View(model);
             }
@@ -43,6 +46,27 @@ namespace EduxSoft.Base.Controllers
         public async Task<IActionResult> Create()
         {
             return await Task.Run(() => View());
+        }
+        [Route("configuration/new-school")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddSchool(CreateSchoolModel info)
+        {
+            if (ModelState.IsValid)
+            {
+                var schoolInfo = new SchoolInfo();
+                schoolInfo.Name = info.Name;
+                schoolInfo.Address = info.Address;
+                schoolInfo.IsPrimary = info.IsPrimary;
+                schoolInfo.IsSecondary = info.IsSecondary;
+                schoolInfo.Created = DateTime.Now.Date;
+                //saving data
+                _storage.GetRepository<ISchoolRepository>().Add(schoolInfo);
+                _storage.Save();
+                return RedirectToAction("Index");
+            }
+
+            return View();
         }
         
     }
