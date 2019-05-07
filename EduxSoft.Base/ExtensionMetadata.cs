@@ -13,6 +13,7 @@ namespace EduxSoft.Base
         public IEnumerable<StyleSheet> StyleSheets => new[]
         {
             new StyleSheet("/Styles.base.css", 610),
+            new StyleSheet("/Styles.checkbook.css",620)
         };
 
         public IEnumerable<Script> Scripts => new Script[]

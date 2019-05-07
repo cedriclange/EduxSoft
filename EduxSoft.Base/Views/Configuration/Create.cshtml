@@ -1,4 +1,4 @@
-﻿@model EduxSoft.Base.ViewModels.Configuration.IndexViewModel
+﻿@model EduxSoft.Base.Data.Entities.SchoolInfo
 @using EduxSoft.Base.Models
 @using EduxSoft.Base.Code
 @{ 
@@ -6,8 +6,37 @@
 }
     <form asp-action="NewSchool" role="form">
         @await Html.PartialAsync("_ModalHeader", new ModalHeader { Heading = "Nouveau Etablissement" });
-        <div class="modal-body">
+        <div class="modal-body form-horizontal">
+            <div class="row">
+                
+                    <div class="form-group">
+                        <label asp-for="@Model.Name" class="col-sm-2 control-label">Nom </label>
+                        <div class="col-sm-6">
+                            <input asp-for="@Model.Name" class="form-control admin-label" readonly>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Structure</label>
+                        <div class="col-sm-6">
+                            <input type="checkbox" asp-for="@Model.IsPrimary" class="form-control"/>
+                            <label asp-for="@Model.IsPrimary."><span class="ui"></span>Primaire</label>
+                        </div>   
+                        <div class="col-sm-6">
+                            <input type="checkbox" asp-for="@Model.IsSecondary" class="form-control" />
+                            <label asp-for="@Model.IsSecondary"><span class="ui"></span>Secondaire</label>
+                        </div>
+                    </div>
+                
+                    <div class="form-group">
+                        <label asp-for="@Model.Address" class="col-sm-2 control-label">Adresse </label>
+                        <div class="col-sm-6">
+                            <input asp-for="@Model.Address" class="form-control admin-label" readonly>
+                        </div>
 
+                    </div>
+
+                
         </div>
         @await Html.PartialAsync("_ModalFooter", new ModalFooter { });
     </form>
