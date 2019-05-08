@@ -119,6 +119,24 @@
     <EmbeddedResource Include="..\..\node_modules\ionicons\dist\fonts\ionicons.woff2" LinkBase="node_modules\ionicons\dist\fonts\" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="node_modules\bootstrap\dist\fonts\glyphicons-halflings-regular.eot" />
+    <EmbeddedResource Include="node_modules\bootstrap\dist\fonts\glyphicons-halflings-regular.svg" />
+    <EmbeddedResource Include="node_modules\bootstrap\dist\fonts\glyphicons-halflings-regular.ttf" />
+    <EmbeddedResource Include="node_modules\bootstrap\dist\fonts\glyphicons-halflings-regular.woff" />
+    <EmbeddedResource Include="node_modules\bootstrap\dist\fonts\glyphicons-halflings-regular.woff2" />
+    <EmbeddedResource Include="node_modules\font-awesome\fonts\fontawesome-webfont.woff" />
+    <EmbeddedResource Include="node_modules\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <EmbeddedResource Include="node_modules\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <EmbeddedResource Include="node_modules\font-awesome\fonts\fontawesome-webfont.svg" />
+    <EmbeddedResource Include="node_modules\font-awesome\fonts\FontAwesome.otf" />
+    <EmbeddedResource Include="node_modules\ionicons\dist\fonts\ionicons.eot" />
+    <EmbeddedResource Include="node_modules\ionicons\dist\fonts\ionicons.svg" />
+    <EmbeddedResource Include="node_modules\ionicons\dist\fonts\ionicons.ttf" />
+    <EmbeddedResource Include="node_modules\ionicons\dist\fonts\ionicons.woff" />
+    <EmbeddedResource Include="node_modules\ionicons\dist\fonts\ionicons.woff2" />
+    <EmbeddedResource Include="node_modules\jquery-ajax-unobtrusive\dist\jquery.unobtrusive-ajax.js"/>
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\Shared\_IsDebugBanner.cshtml" />
   </ItemGroup>

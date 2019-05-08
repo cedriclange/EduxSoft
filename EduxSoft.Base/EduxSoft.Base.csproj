@@ -25,6 +25,8 @@
     <None Remove="stylecop.json" />
     <None Remove="Styles\base.css" />
     <None Remove="Views\Configuration\Index.cshtml" />
+    <None Remove="Views\Section\Create.cshtml" />
+    <None Remove="Views\Section\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="..\stylecop.json" />
@@ -42,6 +44,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <DotNetCliToolReference Include="BundlerMinifier.Core" Version="2.9.406" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Classe\" />
   </ItemGroup>
 
 </Project>

@@ -62,15 +62,9 @@ namespace WebApplication.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Address");
-
+                  
                     b.Property<DateTime>("Created");
-
-                    b.Property<bool>("IsPrimary");
-
-                    b.Property<bool>("IsSecondary");
-
+               
                     b.Property<string>("Name");
 
                     b.HasKey("Id");

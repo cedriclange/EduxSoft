@@ -1,0 +1,21 @@
+﻿@model EduxSoft.Base.ViewModels.Section.CreateSectionModel
+@using EduxSoft.Base.Models
+@using EduxSoft.Base.Code
+
+@{ 
+    Layout = null;
+}
+<form asp-action="AddSection" role="form" method="post">
+    @await Html.PartialAsync("_ModalHeader", new ModalHeader { Heading = "Section" });
+    <div class="modal-body form-horizontal">
+        <div class="row">
+            <div class="form-group">
+                <label asp-for="@Model.Name" class="col-sm-2 control-label">Nom de section</label>
+                <div class="col-sm-6">
+                    <input asp-for="@Model.Name" class="form-control admin-label"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    @await Html.PartialAsync("_ModalFooter", new ModalFooter { });
+</form>

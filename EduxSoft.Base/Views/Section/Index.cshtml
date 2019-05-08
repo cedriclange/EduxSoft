@@ -1,0 +1,66 @@
+﻿@model EduxSoft.Base.ViewModels.Section.IndexSectionModel
+@using EduxSoft.Base.Code
+@using EduxSoft.Base.Models
+
+@section title{
+    Sections et classes
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="box box-primary">
+            <div class="box-header">
+                <h4 class="box-title">Sections</h4>
+                <div class="box-tools pull-right">
+                    <span class="label label-primary">Label</span>
+                </div>
+            </div>
+            <div class="box-body">
+                @*TAble of content*@
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nom de la section</th>
+                                <th>Actions</th>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Sections)
+                            {
+                                <tr>
+                                    <td></td>
+                                    <td>@item.Name</td>
+                                    <td>
+                                        <a asp-action="" asp-route-id="@item.Id" class="btn btn-success"><span class="fa fa-eye"/></a>|
+                                        <a asp-action="" asp-route-id="@item.Id" class="btn btn-default"><span class="fa fa-edit" /></a>|
+                                        <a asp-action="" asp-route-id="@item.Id" class="btn btn-danger"><span class="fa fa-trash-alt" /></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <div class="box-footer">
+                <div class="margin">
+                    <div class="btn-group">
+                        <a id="addSectionModal" data-toggle="modal" asp-action="Create" data-target="#modal-action-base" class="btn btn-block btn-primary">Nouveau</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @**hide form*@
+    </div>
+    <div class="col-md-6">
+        <div class="box box-info">
+            <div class="box-header">
+                <h4 class="box-title">Classes</h4>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.Partial("_Modal", new BootstrapModel { ID = "modal-action-base", AreaLabeledId = "modal-action-base-label", Size = ModalSize.Medium })
