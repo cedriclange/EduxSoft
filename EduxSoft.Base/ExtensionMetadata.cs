@@ -28,9 +28,8 @@ namespace EduxSoft.Base
                 MenuItem[] menuItems = new[]
                 {
                     new MenuItem("/configuration", "Information General", 100, null,new List<PermissionRequirementAttribute>(new []{new PermissionRequirementAttribute(Permission.Admin), } )),
-                    new MenuItem("/configuration/section", "Section",200, null,new List<PermissionRequirementAttribute>(new []{new PermissionRequirementAttribute(Permission.Admin),  } )),
-                    new MenuItem("/configuration/classe", "Classe",300, null,new List<PermissionRequirementAttribute>(new []{new PermissionRequirementAttribute(Permission.Admin),  } ))
-
+                    new MenuItem("/configuration/section", "Sections et Classes",200, null,new List<PermissionRequirementAttribute>(new []{new PermissionRequirementAttribute(Permission.Admin),  } )),
+                    
                 };
                 return new MenuGroup[]
                 {

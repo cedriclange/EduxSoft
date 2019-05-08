@@ -1,2 +1,3 @@
+src\SoftinuxBase.SeedDatabase\bin\debug\netcoreapp2.2\SoftinuxBase.SeedDatabase.dll
 .\EduxSoft.Base\bin\Debug\netcoreapp2.2\EduxSoft.Base.dll
 .\EduxSoft.Base\bin\Debug\netcoreapp2.2\EduxSoft.Base.xml

@@ -30,10 +30,7 @@ namespace WebApplication.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(nullable: true),
-                    Address = table.Column<string>(nullable: true),
-                    IsPrimary = table.Column<bool>(nullable: false),
-                    IsSecondary = table.Column<bool>(nullable: false),
+                    Name = table.Column<string>(nullable: true),                    
                     Created = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>

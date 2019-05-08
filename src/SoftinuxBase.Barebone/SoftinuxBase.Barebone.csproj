@@ -131,6 +131,7 @@
     <EmbeddedResource Include="node_modules\ionicons\dist\fonts\ionicons.ttf" />
     <EmbeddedResource Include="node_modules\ionicons\dist\fonts\ionicons.woff" />
     <EmbeddedResource Include="node_modules\ionicons\dist\fonts\ionicons.woff2" />
+    <EmbeddedResource Include="node_modules\jquery-ajax-unobtrusive\dist\jquery.unobtrusive-ajax.js"/>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\_references.js" />

@@ -13,7 +13,7 @@ namespace EduxSoft.Base.Data.EntityFrameworkCore
     {
         public async Task<IEnumerable<SectionInfo>> All()
         {
-            return await dbSet.ToListAsync();
+            return await dbSet.Include(e=>e.Classes).ToListAsync();
         }
 
         public void Create(SectionInfo section)
