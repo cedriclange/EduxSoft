@@ -10,6 +10,7 @@ namespace EduxSoft.Base.Data.Abstractions
     {
         Task<IEnumerable<SectionInfo>> All();
         Task<SectionInfo> WithKey(int id);
+        IEnumerable<SectionInfo> DropDownList();
         void Create(SectionInfo section);
         void Edit(SectionInfo section);
     }

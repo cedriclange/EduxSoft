@@ -2,8 +2,8 @@
 @using EduxSoft.Base.Code
 @using EduxSoft.Base.Models
 
-@section title{ 
-Classes
+@section title{
+    Classes
 }
 <div class="row">
     <div class="col-md-12">
@@ -11,7 +11,9 @@ Classes
             <div class="box-header">
                 <h4 class="box-title">Classes</h4>
                 <div class="box-tools pull-right">
-                    <span class="label label-primary">Label</span>
+                    <a id="addClassModal" data-toggle="modal" asp-action="Create" data-target="#modal-action-base">
+                        <span class="label label-primary">Nouvelle classe</span>
+                    </a>                   
                 </div>
             </div>
             <div class="box-body">
@@ -22,7 +24,9 @@ Classes
                             <tr>
                                 <th>#</th>
                                 <th>Section</th>
-                                <th>Description</th>
+                                <th>Classe</th>
+                                <th>Tag Primaire</th>
+                                <th>Tag Secondaire</th>
                             </tr>
 
                         </thead>
@@ -31,23 +35,41 @@ Classes
                             {
                                 <tr>
                                     <td></td>
-                                    <td>@item.Name</td>
-                                    <td>$"{@item.Grade} {@item.Name}"</td>
-                                    
+                                    <td>@item.Section.Name</td>
+                                    <td>@item.Grade   @item.Name"</td>
+                                    <td>
+                                        @{
+                                            if (item.IsPrimary)
+                                            {
+                                                <text>OUI</text>
+                                            }
+                                            else
+                                            {
+                                                <text>NON</text>
+                                            }
+                                        }
+                                    </td>
+                                    <td>
+                                        @{
+                                            if (item.IsSecondary)
+                                            {
+                                                <text>OUI</text>
+                                            }
+                                            else
+                                            {
+                                                <text>NON</text>
+                                            }
+                                        }
+                                    </td>
+
                                 </tr>
                             }
                         </tbody>
                     </table>
                 </div>
 
-            </div>
-            <div class="box-footer">
-                <div class="margin">
-                    <div class="btn-group">
-                        <a id="addClassModal" data-toggle="modal" asp-action="Create" data-target="#modal-action-base" class="btn btn-block btn-primary">Nouveau</a>
-                    </div>
-                </div>
-            </div>
+            </div>           
         </div>
     </div>
 </div>
+@Html.Partial("_Modal", new BootstrapModel { ID = "modal-action-base", AreaLabeledId = "modal-action-base-label", Size = ModalSize.Medium })

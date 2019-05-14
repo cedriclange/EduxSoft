@@ -24,6 +24,7 @@
   <ItemGroup>
     <None Remove="stylecop.json" />
     <None Remove="Styles\base.css" />
+    <None Remove="Views\Classe\Create.cshtml" />
     <None Remove="Views\Classe\Index.cshtml" />
     <None Remove="Views\Configuration\Index.cshtml" />
     <None Remove="Views\Section\Create.cshtml" />
