@@ -1,0 +1,58 @@
+﻿@model EduxSoft.Base.ViewModels.Classe.CreateClassModel
+@using EduxSoft.Base.Models
+@using EduxSoft.Base.Code
+@{
+    Layout = null;
+}
+<form asp-action="AddClass" role="form" method="post">
+    @await Html.PartialAsync("_ModalHeader", new ModalHeader { Heading = "Nouvelle classe" });
+    <div class="modal-body form-horizontal">
+        <div class="row">
+            <div class="form-group">
+                <label asp-for="Grade" class="col-sm-2 control-label">Niveau</label>
+                <div class="col-sm-6">
+                    <select class="form-control"
+                            asp-for="Grade">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="col-sm-2 control-label">Description</label>
+                <div class="col-sm-6">
+                    <input asp-for="Name" class="form-control admin-label" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="SectionId" class="col-sm-2 control-label">Section</label>
+                <div class="col-sm-6">
+                    <select asp-for="SectionId" class="form-control">
+                        @{ 
+                            foreach (var item in Model.SectionsDrop)
+                            {
+                                <option value="@Html.Raw(item.Id)">@Html.Raw(item.Name)</option>
+                            }
+                        }
+                    </select>
+                </div>
+                
+            </div>
+            <div class="form-group">
+                <label asp-for="Tag" class="col-sm-2 control-label">Tag</label>
+                <div class="col-sm-6">
+                    <select class="form-control" asp-for="Tag">
+                        <option value="false">Primaire</option>
+                        <option value="true">Secondaire</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    @await Html.PartialAsync("_ModalFooter", new ModalFooter { });
+</form>
+@Html.Partial("_Modal", new BootstrapModel { ID = "modal-action-base", AreaLabeledId = "modal-action-base-label", Size = ModalSize.Medium })

@@ -14,7 +14,7 @@ namespace EduxSoft.Base.Data.EntityFrameworkCore
     {
         public async Task<IEnumerable<ClassInfo>> All()
         {
-            return await dbSet.ToListAsync();
+            return await dbSet.Include(o=>o.Section).ToListAsync();
         }
 
         public void Create(ClassInfo info)

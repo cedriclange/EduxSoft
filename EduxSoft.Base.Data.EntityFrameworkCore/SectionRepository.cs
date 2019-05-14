@@ -30,5 +30,9 @@ namespace EduxSoft.Base.Data.EntityFrameworkCore
         {
             return await dbSet.FirstOrDefaultAsync(c => c.Id == id);
         }
+        public IEnumerable<SectionInfo> DropDownList()
+        {
+            return dbSet.ToList();
+        }
     }
 }
