@@ -1,16 +1,15 @@
-﻿@model EduxSoft.Base.ViewModels.Section.IndexSectionModel
+﻿@model EduxSoft.Base.ViewModels.Classe.IndexClassModel
 @using EduxSoft.Base.Code
 @using EduxSoft.Base.Models
 
-@section title{
-    Sections 
+@section title{ 
+Classes
 }
-
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
         <div class="box box-primary">
             <div class="box-header">
-                <h4 class="box-title">Sections</h4>
+                <h4 class="box-title">Classes</h4>
                 <div class="box-tools pull-right">
                     <span class="label label-primary">Label</span>
                 </div>
@@ -22,22 +21,19 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Nom de la section</th>
-                                <th>Actions</th>
+                                <th>Section</th>
+                                <th>Description</th>
                             </tr>
 
                         </thead>
                         <tbody>
-                            @foreach (var item in Model.Sections)
+                            @foreach (var item in Model.Classes)
                             {
                                 <tr>
                                     <td></td>
                                     <td>@item.Name</td>
-                                    <td>
-                                        <a asp-action="Index" asp-controller="Classe" asp-route-id="@item.Id" class="btn btn-success"><span class="fa fa-eye"/></a>|
-                                        <a asp-action="" asp-route-id="@item.Id" class="btn btn-default"><span class="fa fa-edit" /></a>|
-                                        <a asp-action="" asp-route-id="@item.Id" class="btn btn-danger"><span class="fa fa-trash-alt" /></a>
-                                    </td>
+                                    <td>$"{@item.Grade} {@item.Name}"</td>
+                                    
                                 </tr>
                             }
                         </tbody>
@@ -48,13 +44,10 @@
             <div class="box-footer">
                 <div class="margin">
                     <div class="btn-group">
-                        <a id="addSectionModal" data-toggle="modal" asp-action="Create" data-target="#modal-action-base" class="btn btn-block btn-primary">Nouveau</a>
+                        <a id="addClassModal" data-toggle="modal" asp-action="Create" data-target="#modal-action-base" class="btn btn-block btn-primary">Nouveau</a>
                     </div>
                 </div>
             </div>
         </div>
-        @**hide form*@
     </div>
-    
 </div>
-@Html.Partial("_Modal", new BootstrapModel { ID = "modal-action-base", AreaLabeledId = "modal-action-base-label", Size = ModalSize.Medium })

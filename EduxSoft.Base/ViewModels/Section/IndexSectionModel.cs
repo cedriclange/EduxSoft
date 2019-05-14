@@ -9,5 +9,6 @@ namespace EduxSoft.Base.ViewModels.Section
     {
         public IEnumerable<SectionInfo> Sections { get; set; }
         
+
     }
 }
