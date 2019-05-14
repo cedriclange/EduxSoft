@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using EduxSoft.Base.Data.Abstractions;
 using EduxSoft.Base.Data.Entities;
+using EduxSoft.Base.ViewModels.Classe;
 using EduxSoft.Base.ViewModels.Section;
 using ExtCore.Data.Abstractions;
 using Microsoft.AspNetCore.Mvc;
@@ -24,6 +25,15 @@ namespace EduxSoft.Base.Controllers
             model.Sections = await _storage.GetRepository<ISectionRepository>().All();
             return View(model);
         }
+
+        [HttpGet]
+        public async Task<PartialViewResult> GetClasse(int sectionId)
+        {
+            var model = new IndexClassModel();
+            model.Classes = await _storage.GetRepository<IClassRepository>().FromSection(sectionId);
+            return PartialView(model);
+        }
+
         [Route("configuration/section/add-section")]
         [HttpGet]
         public IActionResult Create()

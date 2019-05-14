@@ -1,0 +1,25 @@
+﻿@model EduxSoft.Base.ViewModels.Classe.AjaxIndexClassModel
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Section</th>
+            <th>Description</th>
+        </tr>
+
+    </thead>
+    <tbody>
+        @if (ViewBag.Tag == true)
+        {
+            foreach (var item in Model.Classes)
+            {
+                <tr>
+                    <td></td>
+                    <td>@item.Section.Name</td>
+                    <td>$"{@item.Grade} {@item.Name}"</td>
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>
