@@ -12,7 +12,12 @@
             <div class="box-header">
                 <h4 class="box-title">Sections</h4>
                 <div class="box-tools pull-right">
-                    <span class="label label-primary">Label</span>
+                    <a id="addSectionModal" data-toggle="modal" asp-action="Create" data-target="#modal-action-base">
+                   
+                        <span class="label label-primary">Nouveau</span>
+                    </a>
+
+                    
                 </div>
             </div>
             <div class="box-body">
@@ -45,13 +50,7 @@
                 </div>
 
             </div>
-            <div class="box-footer">
-                <div class="margin">
-                    <div class="btn-group">
-                        <a id="addSectionModal" data-toggle="modal" asp-action="Create" data-target="#modal-action-base" class="btn btn-block btn-primary">Nouveau</a>
-                    </div>
-                </div>
-            </div>
+           
         </div>
         @**hide form*@
     </div>
