@@ -43,13 +43,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{6A91
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "base", "base", "{DCB0C627-988F-4F1F-BB57-8CE5DE4C71DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduxSoft.Base.Data.Entities", "EduxSoft.Base.Data.Entities\EduxSoft.Base.Data.Entities.csproj", "{67BE604F-E467-40D2-A783-4427B99EF8AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EduxSoft.Base.Data.Entities", "EduxSoft.Base.Data.Entities\EduxSoft.Base.Data.Entities.csproj", "{67BE604F-E467-40D2-A783-4427B99EF8AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduxSoft.Base.Data.Abstractions", "EduxSoft.Base.Data.Abstractions\EduxSoft.Base.Data.Abstractions.csproj", "{B7CFDB85-AECE-45FF-B26A-B844E9E9A354}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EduxSoft.Base.Data.Abstractions", "EduxSoft.Base.Data.Abstractions\EduxSoft.Base.Data.Abstractions.csproj", "{B7CFDB85-AECE-45FF-B26A-B844E9E9A354}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduxSoft.Base.Data.EntityFrameworkCore", "EduxSoft.Base.Data.EntityFrameworkCore\EduxSoft.Base.Data.EntityFrameworkCore.csproj", "{E4595740-CA8E-4E03-B673-3DE3DED4BAF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EduxSoft.Base.Data.EntityFrameworkCore", "EduxSoft.Base.Data.EntityFrameworkCore\EduxSoft.Base.Data.EntityFrameworkCore.csproj", "{E4595740-CA8E-4E03-B673-3DE3DED4BAF4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduxSoft.Base", "EduxSoft.Base\EduxSoft.Base.csproj", "{DC3CFDE0-AF0D-451A-B8E5-E0FF3763D392}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EduxSoft.Base", "EduxSoft.Base\EduxSoft.Base.csproj", "{DC3CFDE0-AF0D-451A-B8E5-E0FF3763D392}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Student", "Student", "{4F293D22-41E2-40DF-B0D3-01C752502046}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduxSoft.Student.Data.Entities", "src\EduxSoft.Student.Data.Entities\EduxSoft.Student.Data.Entities.csproj", "{0EE2717E-B149-4AA9-973B-A36CA3F39ED4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -325,6 +329,18 @@ Global
 		{DC3CFDE0-AF0D-451A-B8E5-E0FF3763D392}.Release|x64.Build.0 = Release|Any CPU
 		{DC3CFDE0-AF0D-451A-B8E5-E0FF3763D392}.Release|x86.ActiveCfg = Release|Any CPU
 		{DC3CFDE0-AF0D-451A-B8E5-E0FF3763D392}.Release|x86.Build.0 = Release|Any CPU
+		{0EE2717E-B149-4AA9-973B-A36CA3F39ED4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EE2717E-B149-4AA9-973B-A36CA3F39ED4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EE2717E-B149-4AA9-973B-A36CA3F39ED4}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0EE2717E-B149-4AA9-973B-A36CA3F39ED4}.Debug|x64.Build.0 = Debug|Any CPU
+		{0EE2717E-B149-4AA9-973B-A36CA3F39ED4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0EE2717E-B149-4AA9-973B-A36CA3F39ED4}.Debug|x86.Build.0 = Debug|Any CPU
+		{0EE2717E-B149-4AA9-973B-A36CA3F39ED4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EE2717E-B149-4AA9-973B-A36CA3F39ED4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EE2717E-B149-4AA9-973B-A36CA3F39ED4}.Release|x64.ActiveCfg = Release|Any CPU
+		{0EE2717E-B149-4AA9-973B-A36CA3F39ED4}.Release|x64.Build.0 = Release|Any CPU
+		{0EE2717E-B149-4AA9-973B-A36CA3F39ED4}.Release|x86.ActiveCfg = Release|Any CPU
+		{0EE2717E-B149-4AA9-973B-A36CA3F39ED4}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -335,6 +351,8 @@ Global
 		{B7CFDB85-AECE-45FF-B26A-B844E9E9A354} = {DCB0C627-988F-4F1F-BB57-8CE5DE4C71DA}
 		{E4595740-CA8E-4E03-B673-3DE3DED4BAF4} = {DCB0C627-988F-4F1F-BB57-8CE5DE4C71DA}
 		{DC3CFDE0-AF0D-451A-B8E5-E0FF3763D392} = {DCB0C627-988F-4F1F-BB57-8CE5DE4C71DA}
+		{4F293D22-41E2-40DF-B0D3-01C752502046} = {6A91B350-38DC-49F6-A030-797FD98BDF74}
+		{0EE2717E-B149-4AA9-973B-A36CA3F39ED4} = {4F293D22-41E2-40DF-B0D3-01C752502046}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {072DB019-D6AB-4D9D-BAC5-629FF31A62C5}
