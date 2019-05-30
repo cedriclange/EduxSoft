@@ -5,11 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ExtCore.Data.Entities.Abstractions" Version="4.0.0" />
+    <PackageReference Include="ExtCore.Data.EntityFramework.Sqlite" Version="4.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\EduxSoft.Base.Data.Entities\EduxSoft.Base.Data.Entities.csproj" />
+    <ProjectReference Include="..\EduxSoft.Student.Data.Abstractions\EduxSoft.Student.Data.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

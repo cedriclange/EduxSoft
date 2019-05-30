@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ExtCore.Data.Entities.Abstractions" Version="4.0.0" />
+    <PackageReference Include="ExtCore.Data.Abstractions" Version="4.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\EduxSoft.Base.Data.Entities\EduxSoft.Base.Data.Entities.csproj" />
+    <ProjectReference Include="..\EduxSoft.Student.Data.Entities\EduxSoft.Student.Data.Entities.csproj" />
   </ItemGroup>
 
 </Project>
