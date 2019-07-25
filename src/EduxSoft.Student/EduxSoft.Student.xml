@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EduxSoft.Student</name>
+    </assembly>
+    <members>
+        <member name="M:EduxSoft.Student.Controllers.StudentController.#ctor(ExtCore.Data.Abstractions.IStorage,Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:EduxSoft.Student.Controllers.StudentController"/> class.
+            </summary>
+            <param name="storage_"></param>
+            <param name="loggerFactory_"></param>
+        </member>
+        <member name="P:EduxSoft.Student.ExtensionMetadata.SoftinuxBase#Infrastructure#Interfaces#IExtensionMetadata#IsAvailableForPermissions">
+            <inheritdoc/>
+        </member>
+    </members>
+</doc>

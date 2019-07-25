@@ -2,6 +2,7 @@
 // Licensed under the MIT License, Version 2.0. See LICENSE file in the project root for license information.
 
 using EduxSoft.Base.Data.Entities;
+using EduxSoft.Student.Data.Entities;
 using ExtCore.Data.Abstractions;
 using ExtCore.Data.EntityFramework;
 using Microsoft.AspNetCore.Identity;
@@ -27,6 +28,9 @@ namespace SoftinuxBase.WebApplication
         public DbSet<SchoolInfo> SchoolInfo { get; set; }
         public DbSet<SectionInfo> SectionInfo { get; set; }
         public DbSet<ClassInfo> ClassInfo { get; set; }
+        //EduxSoft.Student
+        public DbSet<StudentEntity> StudentEntity { get; set; }
+        public DbSet<Enrollement> Enrollement { get; set; }
         public ApplicationStorageContext(DbContextOptions options_)
             : base(options_)
         {

@@ -9,14 +9,14 @@ using WebApplication;
 namespace WebApplication.Migrations
 {
     [DbContext(typeof(ApplicationStorageContext))]
-    [Migration("20190501222148_eduxbase")]
-    partial class eduxbase
+    [Migration("20190717124419_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.3-servicing-35854");
+                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
 
             modelBuilder.Entity("EduxSoft.Base.Data.Entities.ClassInfo", b =>
                 {
@@ -45,7 +45,8 @@ namespace WebApplication.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Address");
+                    b.Property<string>("Address")
+                        .HasColumnType("varchar(100)");
 
                     b.Property<DateTime>("Created");
 
@@ -53,7 +54,9 @@ namespace WebApplication.Migrations
 
                     b.Property<bool>("IsSecondary");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)");
 
                     b.HasKey("Id");
 
@@ -65,19 +68,57 @@ namespace WebApplication.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Address");
-
                     b.Property<DateTime>("Created");
 
-                    b.Property<bool>("IsPrimary");
-
-                    b.Property<bool>("IsSecondary");
-
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)");
 
                     b.HasKey("Id");
 
                     b.ToTable("SectionInfo");
+                });
+
+            modelBuilder.Entity("EduxSoft.Student.Data.Entities.Enrollement", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ClassId");
+
+                    b.Property<DateTime>("Created");
+
+                    b.Property<int>("StudentId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Enrollement");
+                });
+
+            modelBuilder.Entity("EduxSoft.Student.Data.Entities.StudentEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Address");
+
+                    b.Property<DateTime>("Created");
+
+                    b.Property<DateTime>("DateOfBirth");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired();
+
+                    b.Property<string>("MiddleName");
+
+                    b.Property<string>("StudentNumber");
+
+                    b.Property<string>("Surname")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("StudentEntity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<string>", b =>

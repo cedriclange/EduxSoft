@@ -1,7 +1,4 @@
-﻿// Copyright © 2017-2019 SOFTINUX. All rights reserved.
-// Licensed under the MIT License, Version 2.0. See LICENSE file in the project root for license information.
-
-using System;
+﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebApplication.Migrations
@@ -54,6 +51,21 @@ namespace WebApplication.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Enrollement",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    StudentId = table.Column<int>(nullable: false),
+                    ClassId = table.Column<int>(nullable: false),
+                    Created = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Enrollement", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Permission",
                 columns: table => new
                 {
@@ -64,6 +76,56 @@ namespace WebApplication.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Permission", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SchoolInfo",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "varchar(50)", nullable: false),
+                    Address = table.Column<string>(type: "varchar(100)", nullable: true),
+                    IsPrimary = table.Column<bool>(nullable: false),
+                    IsSecondary = table.Column<bool>(nullable: false),
+                    Created = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SchoolInfo", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SectionInfo",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "varchar(50)", nullable: false),
+                    Created = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SectionInfo", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StudentEntity",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    FirstName = table.Column<string>(nullable: false),
+                    MiddleName = table.Column<string>(nullable: true),
+                    Surname = table.Column<string>(nullable: false),
+                    StudentNumber = table.Column<string>(nullable: true),
+                    DateOfBirth = table.Column<DateTime>(nullable: false),
+                    Address = table.Column<string>(nullable: true),
+                    Created = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StudentEntity", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -176,10 +238,10 @@ namespace WebApplication.Migrations
                 name: "RolePermission",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
                     RoleId = table.Column<string>(nullable: false),
                     Extension = table.Column<string>(nullable: false),
-                    PermissionId = table.Column<string>(nullable: false)
+                    PermissionId = table.Column<string>(nullable: false),
+                    Id = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -224,6 +286,29 @@ namespace WebApplication.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ClassInfo",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(nullable: true),
+                    Grade = table.Column<string>(nullable: true),
+                    IsPrimary = table.Column<bool>(nullable: false),
+                    IsSecondary = table.Column<bool>(nullable: false),
+                    SectionId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClassInfo", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ClassInfo_SectionInfo_SectionId",
+                        column: x => x.SectionId,
+                        principalTable: "SectionInfo",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -262,6 +347,11 @@ namespace WebApplication.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_ClassInfo_SectionId",
+                table: "ClassInfo",
+                column: "SectionId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RolePermission_PermissionId",
                 table: "RolePermission",
                 column: "PermissionId");
@@ -290,10 +380,25 @@ namespace WebApplication.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "ClassInfo");
+
+            migrationBuilder.DropTable(
+                name: "Enrollement");
+
+            migrationBuilder.DropTable(
                 name: "RolePermission");
 
             migrationBuilder.DropTable(
+                name: "SchoolInfo");
+
+            migrationBuilder.DropTable(
+                name: "StudentEntity");
+
+            migrationBuilder.DropTable(
                 name: "UserPermission");
+
+            migrationBuilder.DropTable(
+                name: "SectionInfo");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

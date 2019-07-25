@@ -43,6 +43,7 @@ namespace WebApplication
             services_.AddDbContext<ApplicationStorageContext>(options_ =>
             {
                 options_.UseSqlite(Configuration["ConnectionStrings:Default"]);
+                //options_.UseSqlServer(Configuration["ConnectionStrings:Default"]);
                 
             });
 

@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="ExtCore.Data.EntityFramework.Sqlite" Version="4.0.0" />
+    <PackageReference Include="ExtCore.Data.EntityFramework.SqlServer" Version="4.1.0" />
   </ItemGroup>
 
   <ItemGroup>
