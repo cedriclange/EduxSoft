@@ -13,20 +13,18 @@ namespace EduxSoft.Student.Data.EF
         {
             modelbuilder.Entity<StudentEntity>(etb =>
             {
-                
                 etb.HasKey(e => e.Id);
                 etb.Property(e => e.Id).ValueGeneratedOnAdd();
                 etb.Property(e => e.FirstName).IsRequired();
                 etb.Property(e => e.Surname).IsRequired();
-                
+                etb.Property(e=> e.DateOfBirth).IsRequired();
             });
             modelbuilder.Entity<Enrollement>(etb =>
             {
                 etb.HasKey(e => e.Id);
                 etb.Property(e => e.Id).ValueGeneratedOnAdd();
             });
-                
-            
+
         }
     }
 }

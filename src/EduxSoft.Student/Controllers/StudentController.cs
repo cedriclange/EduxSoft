@@ -41,6 +41,7 @@ namespace EduxSoft.Student.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Enroll(CreateStudentModel data)
         {
             if (ModelState.IsValid)
