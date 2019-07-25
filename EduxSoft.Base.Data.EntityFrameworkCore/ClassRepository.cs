@@ -32,5 +32,11 @@ namespace EduxSoft.Base.Data.EntityFrameworkCore
         {
             return dbSet.FirstOrDefault(c => c.Id == id);
         }
+        public IEnumerable<ClassInfo> DropDownList()
+        {
+            return dbSet.ToList();
+        }
+            
+           
     }
 }

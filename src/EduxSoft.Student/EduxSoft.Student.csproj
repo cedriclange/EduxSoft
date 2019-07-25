@@ -9,10 +9,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Views\Shared\_Modal.cshtml" />
+    <None Remove="Views\Shared\_ModalFooter.cshtml" />
+    <None Remove="Views\Shared\_ModalHeader.cshtml" />
+    <None Remove="Views\Student\Create.cshtml" />
     <None Remove="Views\Student\Index.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Views\Shared\_Modal.cshtml" />
+    <EmbeddedResource Include="Views\Shared\_ModalFooter.cshtml" />
+    <EmbeddedResource Include="Views\Shared\_ModalHeader.cshtml" />
+    <EmbeddedResource Include="Views\Student\Create.cshtml" />
     <EmbeddedResource Include="Views\Student\Index.cshtml" />
   </ItemGroup>
 
@@ -25,16 +33,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\EduxSoft.Base.Data.Abstractions\EduxSoft.Base.Data.Abstractions.csproj" />
     <ProjectReference Include="..\EduxSoft.Student.Data.EF\EduxSoft.Student.Data.EF.csproj" />
     <ProjectReference Include="..\SoftinuxBase.Infrastructure\SoftinuxBase.Infrastructure.csproj" />
     <ProjectReference Include="..\SoftinuxBase.Security.Common\SoftinuxBase.Security.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
     <Folder Include="Styles\" />
-    <Folder Include="Scripts\" />
-    <Folder Include="ViewModels\" />
   </ItemGroup>
 
 </Project>

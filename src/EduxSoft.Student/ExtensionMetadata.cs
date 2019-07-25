@@ -19,7 +19,10 @@ namespace EduxSoft.Student
 
         };
 
-        public IEnumerable<Script> Scripts => new Script[] { };
+        public IEnumerable<Script> Scripts => new Script[]
+        {
+            new Script("/Scripts.student.js", 820)
+        };
         public IEnumerable<MenuGroup> MenuGroups
         {
             get

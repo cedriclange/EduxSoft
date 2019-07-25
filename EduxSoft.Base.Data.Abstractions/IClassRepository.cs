@@ -13,5 +13,6 @@ namespace EduxSoft.Base.Data.Abstractions
         Task<IEnumerable<ClassInfo>> FromSection(int id);
         ClassInfo WithKey(int id);
         void Create(ClassInfo info);
+        IEnumerable<ClassInfo> DropDownList();
     }
 }
