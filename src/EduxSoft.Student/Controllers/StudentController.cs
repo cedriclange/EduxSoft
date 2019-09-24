@@ -69,6 +69,6 @@ namespace EduxSoft.Student.Controllers
             }
 
             return View(data);
-        }      
+        }
     }
 }
