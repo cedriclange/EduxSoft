@@ -1,10 +1,10 @@
-﻿@model EduxSoft.Student.ViewModels.IndexViewModel
-@section  title{ Acceuil}
+@model EduxSoft.Student.ViewModels.IndexViewModel
+@section  title{ Liste }
 
 <div class="row">
     <div class="box box-primary col-md-12">
         <div class="box-header">
-            <h4 class="box-tile">Activités récentes</h4>
+            <h4 class="box-tile">Liste d'élèves</h4>
         </div>
         <div class="box-body">
             <div class="table-responsive">
@@ -12,21 +12,21 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Noms Complet</th>
-                            <th>No Reference</th>
-                           
+                            <th>Classe</th>
+                            <th>Noms Complet</th>                           
                         </tr>
 
                     </thead>
                     <tbody>
-                       
+                        @foreach (var item in Model.Classes)
+                        {
                             <tr>
                                 <td></td>
-                                <td>@Model.Student.Surname  @Model.Student.MiddleName  @Model.Student.FirstName </td>
-                                <td>@Model.Student.StudentNumber"</td>                    
+                                <td>@item.Section.Name</td>
+                                <td>@item.Grade   @item.Name </td>                                                                
 
                             </tr>
-                        
+                        }
                     </tbody>
                 </table>
             </div>

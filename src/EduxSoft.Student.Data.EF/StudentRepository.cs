@@ -58,5 +58,9 @@ namespace EduxSoft.Student.Data.EF
         {
             return await dbSet.FirstOrDefaultAsync(c=>c.Id == id);
         }
+        public async Task<StudentEntity> LastAdded(){
+
+            return await dbSet.LastOrDefaultAsync();
+        }
     }
 }

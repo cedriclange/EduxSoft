@@ -25,11 +25,13 @@ namespace EduxSoft.Student.Controllers
         public StudentController(IStorage storage_, ILoggerFactory loggerFactory_ = null) : base(storage_, loggerFactory_)
         {
         }
-
+        [Route("/student")]
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var model = new IndexViewModel();
+            model.Student = await _storage.GetRepository<IStudentRepository>().LastAdded();
+            return View(model);
         }
 
         [Route("/student/enrollement")]

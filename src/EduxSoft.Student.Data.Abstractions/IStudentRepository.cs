@@ -17,6 +17,6 @@ namespace EduxSoft.Student.Data.Abstractions
         Task<List<StudentEntity>> AllByClassId(int id);
         Task<StudentEntity> WithKey(int id);
         Task<int> CountStudent();
-
+        Task<StudentEntity> LastAdded();
     }
 }

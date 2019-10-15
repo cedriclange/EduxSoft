@@ -7,6 +7,6 @@ namespace EduxSoft.Student.ViewModels
 {
     public class IndexViewModel
     {
-        public IEnumerable<StudentEntity> Students { get; set; }
+        public StudentEntity Student { get; set; }
     }
 }
