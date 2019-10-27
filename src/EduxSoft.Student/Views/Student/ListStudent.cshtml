@@ -1,0 +1,70 @@
+@model EduxSoft.Student.ViewModels.ListViewModel
+@section  title{ Liste des élèves }
+
+<div class="row">
+    <div class="box box-primary col-md-12">
+        <div class="box-header">
+            <h4 class="box-tile">Filtres et Outils</h4>
+        </div>
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <form asp-action="List" role="form" method="get">
+                        <div class="form-group">
+                            <label asp-for="" class="col-sm-3 control-label">Classe</label>
+                            <div class="col-sm-6">
+                                <select class="form-control">
+                                    <option value="section">Section</option>
+                                    <option value="classe">Classe</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6">
+                                <label asp-for="" class="col-sm-3 control-label">Section</label>
+
+                                <select class="form-control">
+                                    <option value="value">text</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="submit" class="btn btn-block btn-sucess" name="" value="Filtrer" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-6">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="box box-primary col-md-12">
+        <div class="box-header">
+            <h4 class="box-tile">Liste d'élèves</h4>
+        </div>
+        <div class="box-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>NOM</th>
+                            <th>POSTNOM &amp; PRENOM</th>                           
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Students)
+                        {
+                            <tr>
+                                <td>@item.StudentNumber</td>
+                                <td>@item.Surname</td>
+                                <td>@item.MiddleName  @item.FirstName </td>                                                                
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
