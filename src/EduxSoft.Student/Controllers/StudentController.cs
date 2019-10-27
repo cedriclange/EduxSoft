@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ using SoftinuxBase.Security.Common.Enums;
 
 namespace EduxSoft.Student.Controllers
 {
-    [PermissionRequirement(Permission.Write)]
+    [PermissionRequirement(Permission.Admin)]
     public class StudentController : SoftinuxBase.Infrastructure.ControllerBase
     {
         /// <summary>
@@ -72,5 +73,21 @@ namespace EduxSoft.Student.Controllers
 
             return View(data);
         }
+
+        [Route("/student/list")]
+        [HttpGet]
+        public async Task<IActionResult> ListStudent()
+        {
+            //ViewData["NameParam"] = string.IsNullOrEmpty(SortOrder) ? "name_desc" : "";
+            //ViewData["sectionParam"] = string.IsNullOrEmpty(SortOrder) ? "section_desc" : "";
+            //ViewData["classParam"] = string.IsNullOrEmpty(SortOrder) ? "class_desc" : "";
+
+            var model = new ListViewModel();
+            model.Students = await this._storage.GetRepository<IStudentRepository>().All();
+            model.ClassDrops = this._storage.GetRepository<IClassRepository>().DropDownList();
+            model.sectionDrops = this._storage.GetRepository<ISectionRepository>().DropDownList();
+            return await Task.Run(() => View(model));
+        }
+        
     }
 }

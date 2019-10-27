@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 namespace EduxSoft.Student.Data.EF
 {
     public class StudentRepository : RepositoryBase<StudentEntity>, IStudentRepository
@@ -19,7 +18,9 @@ namespace EduxSoft.Student.Data.EF
 
         public async Task<IEnumerable<StudentEntity>> All()
         {
-            return await dbSet.ToListAsync();
+            return await dbSet.OrderBy(o=>o.Surname)
+                                .ToListAsync();
+            
         }
 
         public IQueryable<StudentEntity> FromClass(int id)
