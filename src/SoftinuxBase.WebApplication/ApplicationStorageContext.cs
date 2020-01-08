@@ -19,7 +19,15 @@ namespace SoftinuxBase.WebApplication
     /// </summary>
     public class ApplicationStorageContext : IdentityDbContext<User, IdentityRole<string>, string>, IStorageContext
     {
-        protected ApplicationStorageContext(DbContextOptions options_)
+        public DbSet<Permission> Permission { get; set; }
+        public DbSet<RolePermission> RolePermission { get; set; }
+        public DbSet<UserPermission> UserPermission { get; set; }
+        
+        //EduxSoft.Base
+        public DbSet<SchoolInfo> SchoolInfo { get; set; }
+        public DbSet<SectionInfo> SectionInfo { get; set; }
+        public DbSet<ClassInfo> ClassInfo { get; set; }
+        public ApplicationStorageContext(DbContextOptions options_)
             : base(options_)
         {
         }
