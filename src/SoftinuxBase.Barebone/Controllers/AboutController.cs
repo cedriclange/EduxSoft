@@ -8,8 +8,13 @@ namespace SoftinuxBase.Barebone.Controllers
 {
     public class AboutController : Controller
     {
+        /// <summary>
+        ///  Index about view.
+        /// </summary>
+        /// <returns>About view.</returns>
         [HttpGet]
-        public async Task<ActionResult> Index()
+        [ActionName("Index")]
+        public async Task<ActionResult> IndexAsync()
         {
             return await Task.Run(() => View());
         }

@@ -3,12 +3,14 @@
 
 using System.Collections.Generic;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
 using ExtCore.Data.Abstractions;
+using Microsoft.AspNetCore.Identity;
 using SoftinuxBase.Security.Common;
 using SoftinuxBase.Security.Common.Enums;
 using SoftinuxBase.Security.Data.Abstractions;
 using SoftinuxBase.Security.Data.Entities;
+
 using Permission = SoftinuxBase.Security.Common.Enums.Permission;
 
 namespace SoftinuxBase.Security
@@ -27,9 +29,10 @@ namespace SoftinuxBase.Security
         /// <summary>
         /// Adds custom claims to WIF-managed ClaimsIdentity object, from application user object.
         /// </summary>
-        /// <param name="user_"></param>
-        /// <param name="identity_"></param>
-        internal async void AddClaims(User user_, ClaimsIdentity identity_)
+        /// <param name="user_">Application user.</param>
+        /// <param name="identity_">Application user as claims collection.</param>
+        /// <returns>The asynchronous Task.</returns>
+        internal async Task AddClaimsAsync(User user_, ClaimsIdentity identity_)
         {
             // First name
             if (!string.IsNullOrWhiteSpace(user_.FirstName))
@@ -66,17 +69,17 @@ namespace SoftinuxBase.Security
         /// <summary>
         /// Reads all scoped permissions from database and create a custom "permission" claim for every scope, if any permission found for this scope.
         /// </summary>
-        /// <param name="userId_"></param>
-        /// <returns></returns>
+        /// <param name="userId_">Application user ID.</param>
+        /// <returns>List of claims.</returns>
         internal IEnumerable<Claim> GetAllPermissionClaims(string userId_)
         {
-           HashSet<KeyValuePair<Permission, string>> scopedPermissions = _storage.GetRepository<IPermissionRepository>().AllForUser(userId_);
-           List<Claim> claims = new List<Claim>();
-           Dictionary<string, Permission> permissionByScope = new Dictionary<string, Permission>();
+            HashSet<KeyValuePair<Permission, string>> scopedPermissions = _storage.GetRepository<IPermissionRepository>().AllForUser(userId_);
+            List<Claim> claims = new List<Claim>();
+            Dictionary<string, Permission> permissionByScope = new Dictionary<string, Permission>();
 
-           // Take highest level permission for every scope
-           foreach (KeyValuePair<Permission, string> kv in scopedPermissions)
-           {
+            // Take highest level permission for every scope
+            foreach (KeyValuePair<Permission, string> kv in scopedPermissions)
+            {
                 if (permissionByScope.ContainsKey(kv.Value))
                 {
                     if ((int)permissionByScope[kv.Value] < (int)kv.Key)
@@ -88,15 +91,15 @@ namespace SoftinuxBase.Security
                 {
                     permissionByScope.Add(kv.Value, kv.Key);
                 }
-           }
+            }
 
             // Now build the claims
-           foreach (KeyValuePair<string, Permission> kv in permissionByScope)
-           {
-               claims.Add(new Claim(ClaimType.Permission, PermissionHelper.GetExtensionPermissionIdentifier(kv.Value, kv.Key)));
-           }
+            foreach (KeyValuePair<string, Permission> kv in permissionByScope)
+            {
+                claims.Add(new Claim(ClaimType.Permission, PermissionHelper.GetExtensionPermissionIdentifier(kv.Value, kv.Key)));
+            }
 
-           return claims;
+            return claims;
         }
     }
 }

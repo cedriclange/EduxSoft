@@ -28,9 +28,9 @@ namespace SecurityTest
         /// The role name is updated, a permission to an extension is added.
         /// The changes are prevented because the new role name isn't available.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public async Task TestCheckAndUpdateRole_Error_NameAlreadyTaken()
+        public async Task CheckAndUpdateRole_Error_NameAlreadyTakenAsync()
         {
             string firstRoleName = "New Role 1 " + DateTime.Now.Ticks;
             string secondRoleName = "New Role 2 " + DateTime.Now.Ticks;
@@ -66,7 +66,7 @@ namespace SecurityTest
                 };
 
                 // Execute
-                var result = await UpdateRoleAndGrants.CheckAndUpdateRoleAndGrants(DatabaseFixture.Storage, DatabaseFixture.RoleManager, model);
+                var result = await UpdateRoleAndGrants.CheckAndUpdateRoleAndGrantsAsync(DatabaseFixture.Storage, DatabaseFixture.RoleManager, model);
 
                 // Assert
                 Assert.NotNull(result);
@@ -101,14 +101,16 @@ namespace SecurityTest
         /// <summary>
         /// The role name is updated, a permission to an extension is added.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public async Task TestCheckAndUpdateRole_NameAvailable_AddExtension()
+        public async Task CheckAndUpdateRole_NameAvailable_AddExtensionAsync()
         {
             string firstRoleName = "New Role 1 " + DateTime.Now.Ticks;
             string secondRoleName = "New Role 2 " + DateTime.Now.Ticks;
             string thirdRoleName = "New Role 3 " + DateTime.Now.Ticks;
-            var permRepo = DatabaseFixture.Storage.GetRepository<IRolePermissionRepository>();
+            var rolePermRepo = DatabaseFixture.Storage.GetRepository<IRolePermissionRepository>();
+            var permRepo = DatabaseFixture.Storage.GetRepository<IPermissionRepository>();
+            var writePermissionId = permRepo.All().FirstOrDefault(p_ => p_.Name == Permission.Write.GetPermissionName())?.Id;
 
             try
             {
@@ -140,16 +142,16 @@ namespace SecurityTest
                 };
 
                 // Execute
-                var result = await UpdateRoleAndGrants.CheckAndUpdateRoleAndGrants(DatabaseFixture.Storage, DatabaseFixture.RoleManager, model);
+                var result = await UpdateRoleAndGrants.CheckAndUpdateRoleAndGrantsAsync(DatabaseFixture.Storage, DatabaseFixture.RoleManager, model);
 
                 // Assert
                 Assert.Null(result);
 
                 // We should find one linked extension, "Security", with Write level
-                var record = permRepo.FilteredByRoleId(secondRoleId).FirstOrDefault();
+                var record = rolePermRepo.FilteredByRoleId(secondRoleId).FirstOrDefault();
                 Assert.NotNull(record);
                 Assert.Equal("Security", record.Extension);
-                Assert.Equal(Permission.Write.ToString(), record.PermissionId);
+                Assert.Equal(writePermissionId, record.PermissionId);
             }
             finally
             {
@@ -163,9 +165,9 @@ namespace SecurityTest
                         continue;
                     }
 
-                    foreach (var rolePermission in permRepo.FilteredByRoleId(createdRole.Id))
+                    foreach (var rolePermission in rolePermRepo.FilteredByRoleId(createdRole.Id))
                     {
-                        permRepo.Delete(rolePermission.RoleId, rolePermission.Extension);
+                        rolePermRepo.Delete(rolePermission.RoleId, rolePermission.Extension);
                     }
 
                     await DatabaseFixture.RoleManager.DeleteAsync(createdRole);
@@ -176,9 +178,9 @@ namespace SecurityTest
         /// <summary>
         /// A permission to an extension is deleted, another is added, another is modified.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public async Task TestCheckAndUpdateRole_ChangeAddDeleteExtension()
+        public async Task CheckAndUpdateRole_ChangeAddDeleteExtensionAsync()
         {
             string roleName = "New Role 1 " + DateTime.Now.Ticks;
             var rolePermissionRepository = DatabaseFixture.Storage.GetRepository<IRolePermissionRepository>();
@@ -198,11 +200,12 @@ namespace SecurityTest
                 string roleId = (await DatabaseFixture.RoleManager.FindByNameAsync(roleName)).Id;
 
                 var readPermissionId = permRepo.All().FirstOrDefault(p_ => p_.Name == Permission.Read.GetPermissionName())?.Id;
+                var writePermissionId = permRepo.All().FirstOrDefault(p_ => p_.Name == Permission.Write.GetPermissionName())?.Id;
 
                 // Add a link to an extension
                 rolePermissionRepository.Create(new RolePermission { PermissionId = readPermissionId, RoleId = roleId, Extension = "Security" });
                 rolePermissionRepository.Create(new RolePermission { PermissionId = readPermissionId, RoleId = roleId, Extension = "Another" });
-                DatabaseFixture.Storage.Save();
+                await DatabaseFixture.Storage.SaveAsync();
 
                 UpdateRoleAndGrantsViewModel model = new UpdateRoleAndGrantsViewModel
                 {
@@ -216,7 +219,7 @@ namespace SecurityTest
                 };
 
                 // Execute
-                var result = await UpdateRoleAndGrants.CheckAndUpdateRoleAndGrants(DatabaseFixture.Storage, DatabaseFixture.RoleManager, model);
+                var result = await UpdateRoleAndGrants.CheckAndUpdateRoleAndGrantsAsync(DatabaseFixture.Storage, DatabaseFixture.RoleManager, model);
 
                 // Assert
                 Assert.Null(result);
@@ -227,11 +230,11 @@ namespace SecurityTest
                 Assert.Equal(2, rolePermissions.Length);
                 var record = rolePermissions.FirstOrDefault(r_ => r_.Extension == "Security");
                 Assert.NotNull(record);
-                Assert.Equal(Permission.Write.ToString(), record.PermissionId);
+                Assert.Equal(writePermissionId, record.PermissionId);
 
                 record = rolePermissions.FirstOrDefault(r_ => r_.Extension == "ThirdExtension");
                 Assert.NotNull(record);
-                Assert.Equal(Permission.Write.ToString(), record.PermissionId);
+                Assert.Equal(writePermissionId, record.PermissionId);
             }
             finally
             {
@@ -252,9 +255,9 @@ namespace SecurityTest
         /// <summary>
         /// A null extensions list is passed, there will be no change.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public async Task TestCheckAndUpdateRole_NoExtensionInList_NoChange()
+        public async Task CheckAndUpdateRole_NoExtensionInList_NoChangeAsync()
         {
             string firstRoleName = "New Role 1 " + DateTime.Now.Ticks;
             var rolePermissionRepository = DatabaseFixture.Storage.GetRepository<IRolePermissionRepository>();
@@ -274,7 +277,7 @@ namespace SecurityTest
 
                 // Create a link to an extension
                 rolePermissionRepository.Create(new RolePermission { RoleId = firstRole.Id, PermissionId = writePermissionId, Extension = "Security" });
-                DatabaseFixture.Storage.Save();
+                await DatabaseFixture.Storage.SaveAsync();
 
                 UpdateRoleAndGrantsViewModel model = new UpdateRoleAndGrantsViewModel
                 {
@@ -286,7 +289,7 @@ namespace SecurityTest
                 };
 
                 // Execute
-                var result = await UpdateRoleAndGrants.CheckAndUpdateRoleAndGrants(DatabaseFixture.Storage, DatabaseFixture.RoleManager, model);
+                var result = await UpdateRoleAndGrants.CheckAndUpdateRoleAndGrantsAsync(DatabaseFixture.Storage, DatabaseFixture.RoleManager, model);
 
                 // Assert
                 Assert.Null(result);
@@ -295,7 +298,7 @@ namespace SecurityTest
                 var record = rolePermissionRepository.FilteredByRoleId(firstRole.Id).FirstOrDefault();
                 Assert.NotNull(record);
                 Assert.Equal("Security", record.Extension);
-                Assert.Equal(Permission.Write.ToString(), record.PermissionId);
+                Assert.Equal(writePermissionId, record.PermissionId);
             }
             finally
             {

@@ -16,22 +16,26 @@ namespace SoftinuxBase.Barebone.ViewComponents
 
         public MenuViewComponent(IStorage storage_, ILoggerFactory loggerFactory_) : base(storage_, loggerFactory_)
         {
-            _logger = _loggerFactory.CreateLogger(GetType().FullName);
+            _logger = LoggerFactory.CreateLogger(GetType().FullName);
         }
 
         /// <summary>
         /// Asynchronously builds menu.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>IViewComponentResult object.</returns>
         public Task<IViewComponentResult> InvokeAsync()
         {
-            MenuViewModelFactory factory = new MenuViewModelFactory(_storage, _loggerFactory);
+            MenuViewModelFactory factory = new MenuViewModelFactory(Storage, LoggerFactory);
 
+#if DEBUG
             Stopwatch watch = new Stopwatch();
             watch.Start();
+#endif
             MenuViewModel menu = factory.Create();
+#if DEBUG
             watch.Stop();
             _logger.LogInformation("Time to build menu content by MenuViewModelFactory: " + watch.ElapsedMilliseconds + " ms");
+#endif
             return Task.FromResult<IViewComponentResult>(View(menu));
         }
     }

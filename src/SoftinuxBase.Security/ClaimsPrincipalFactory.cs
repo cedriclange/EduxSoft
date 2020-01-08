@@ -3,9 +3,9 @@
 
 using System.Security.Claims;
 using System.Threading.Tasks;
+using ExtCore.Data.Abstractions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
-using ExtCore.Data.Abstractions;
 using SoftinuxBase.Security.Data.Entities;
 
 namespace SoftinuxBase.Security
@@ -28,7 +28,7 @@ namespace SoftinuxBase.Security
         {
             var principal = await base.CreateAsync(user_);
 
-            new ClaimsManager(_storage, UserManager).AddClaims(user_, (ClaimsIdentity)principal.Identity);
+            await new ClaimsManager(_storage, UserManager).AddClaimsAsync(user_, (ClaimsIdentity)principal.Identity);
 
             return principal;
         }

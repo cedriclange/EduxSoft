@@ -11,7 +11,14 @@
     int i = 1;
     foreach (var item in Model.PermissionsByRoleAndExtension)
     {
-        if (item.Value.Any())
+        bool hasNotNeverPermission = false;
+        @foreach (var kvpRolePermissions in from kvpRolePermissions in item.Value from permission in kvpRolePermissions.Value.Where(permission_ => permission_ != Permission.Never)
+            select kvpRolePermissions)
+        {
+            hasNotNeverPermission = true;
+        }
+
+        if (hasNotNeverPermission)
         {
             <div class="row extension-row accordion-toggle collapsed" data-extension-id="@Html.Raw(item.Key)" data-toggle="collapse" data-target=@Html.Raw("\"#extension" + i + "\"")>
                 <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
@@ -24,6 +31,12 @@
                             @* html into roles list loop *@
                             @foreach (var subitem in item.Value)
                             {
+
+                                @if (!subitem.Value.Any() || subitem.Value.All(permission_ => permission_ == Permission.Never))
+                                {
+                                    continue;
+                                }
+
                                 <div class="row" data-role-id="@Html.Raw(item.Key+ "_" + subitem.Key)">
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 cell-heigth-25" align="right">
                                         @if (item.Value.ElementAt(0).Key.Equals(subitem.Key))
@@ -35,7 +48,7 @@
                                     <div class="col-lg-1 col-md-2 col-sm-2 col-xs-1 cell-heigth-25 cell-role-row">
                                         <label class="checkbox-container">
                                             <input id="@Html.Raw(item.Key + "_" + subitem.Key + "_" + "ADMIN")" type="checkbox"
-                                                   @if (subitem.Value.Contains(Permission.Admin)) { @Html.Raw("checked") } onclick="checkClick()">
+                                                   @if (subitem.Value.Contains(Permission.Admin)) { @Html.Raw("checked") } onclick="permissionCheckBoxClick(this)">
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
@@ -44,7 +57,7 @@
                                         <label class="checkbox-container">
                                             <input id="@Html.Raw(item.Key + "_" + subitem.Key + "_" + "WRITE")" type="checkbox"
                                                    @if (subitem.Value.Contains(Permission.Write)) { @Html.Raw("checked") }
-                                                   @if (subitem.Value.Contains(Permission.Admin)) { @Html.Raw("disabled=\"true\"") } onclick="checkClick()">
+                                                   @if (subitem.Value.Contains(Permission.Admin)) { @Html.Raw("disabled=\"true\"") } onclick="permissionCheckBoxClick(this)">
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
@@ -53,11 +66,11 @@
                                         <label class="checkbox-container">
                                             <input id="@Html.Raw(item.Key + "_" + subitem.Key + "_" + "READ")" type="checkbox"
                                                    @if (subitem.Value.Contains(Permission.Read)) { @Html.Raw("checked") }
-                                                   @if (subitem.Value.Contains(Permission.Write)) { @Html.Raw("disabled=\"true\"") } onclick="checkClick()">
+                                                   @if (subitem.Value.Contains(Permission.Write)) { @Html.Raw("disabled=\"true\"") } onclick="permissionCheckBoxClick(this)">
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
-                                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 cell-heigth-25 cell-role-row delete-role" data-toggle="modal" data-target="#myModal" onclick="removeRoleLink()"></div>
+                                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 cell-heigth-25 cell-role-row unlink-role" onclick="removeRoleLink(this)"></div>
                                 </div>
                             }
                         </div>

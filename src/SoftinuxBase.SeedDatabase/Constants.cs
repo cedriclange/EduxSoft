@@ -8,8 +8,19 @@ namespace SoftinuxBase.SeedDatabase
 {
     public enum Role
     {
+        /// <summary>
+        /// Administrator role.
+        /// </summary>
         Administrator,
+
+        /// <summary>
+        /// User role.
+        /// </summary>
         User,
+
+        /// <summary>
+        /// Anonymous role.
+        /// </summary>
         Anonymous
     }
 
@@ -20,9 +31,5 @@ namespace SoftinuxBase.SeedDatabase
             return role.ToString();
         }
 
-        public static string GetPermissionName(this Permission permission) // convenience method
-        {
-            return PermissionHelper.GetPermissionName(permission);
-        }
     }
 }

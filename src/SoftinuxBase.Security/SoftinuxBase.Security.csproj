@@ -10,6 +10,7 @@
     <PackageId>SoftinuxBase.Security</PackageId>
     <PackageIconUrl></PackageIconUrl>
     <PackageProjectUrl>http://www.softinux.com/</PackageProjectUrl>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
   </PropertyGroup>
   <PropertyGroup>
     <LangVersion>7</LangVersion>
@@ -22,48 +23,47 @@
   <ItemGroup>
     <AdditionalFiles Include="..\..\stylecop.json" />
   </ItemGroup>
+  <Choose>
+    <When Condition=" '$(Configuration)'=='Debug' ">
+      <ItemGroup>
+        <EmbeddedResource Include="Scripts\**\security_user.js" />
+        <EmbeddedResource Include="Scripts\**\security_edit_user.js" />
+        <EmbeddedResource Include="Scripts\**\security_user_permissions.js" />
+      </ItemGroup>
+    </When>
+  </Choose>
   <ItemGroup>
-    <Folder Include="Scripts" />
+    <None Remove="node_modules\**" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Styles\**;Scripts\**\*.min.js;Views\**" />
+    <None Remove="Views\Shared\Components\AddRoleListExtensions.cshtml" />
+    <None Remove="Views\Shared\Components\AddRoleListExtensions\_AddRoleListExtensions.cshtml" />
+    <!-- JavaScript -->
+    <EmbeddedResource Include="..\..\node_modules\datatables.net\js\jquery.dataTables.js" LinkBase="node_modules\datatables.net\js\" />
+    <EmbeddedResource Include="..\..\node_modules\datatables.net-bs\js\dataTables.bootstrap.js" LinkBase="node_modules\datatables.net-bs\js\" />
+    <EmbeddedResource Include="..\..\node_modules\datatables.net-select\js\dataTables.select.min.js" LinkBase="node_modules\datatables.net-select\js\" />
+    <EmbeddedResource Include="..\..\node_modules\datatables.net-buttons\js\dataTables.buttons.min.js" LinkBase="node_modules\datatables.net-buttons\js\" />
+    <EmbeddedResource Include="..\..\node_modules\datatables.net-buttons-bs\js\buttons.bootstrap.min.js" LinkBase="node_modules\datatables.net-buttons-bs\js\" />
+    <!-- Css -->
+    <EmbeddedResource Include="..\..\node_modules\datatables.net-bs\css\dataTables.bootstrap.css" LinkBase="node_modules\datatables.net-bs\css\" />
+    <EmbeddedResource Include="..\..\node_modules\datatables.net-select-bs\css\select.bootstrap.min.css" LinkBase="node_modules\datatables.net-select-bs\css\" />
+    <EmbeddedResource Include="..\..\node_modules\datatables.net-buttons-bs\css\buttons.bootstrap.min.css" LinkBase="node_modules\datatables.net-buttons-bs\css\" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Views\Account\AccessDenied.cshtml" />
-    <None Remove="Views\Account\SignIn.cshtml" />
-    <None Remove="Views\Shared\_ListClaims.cshtml" />
-    <None Remove="Views\Shared\_User_Profile_Details.cshtml" />
-    <None Remove="Views\_ViewImports.cshtml" />
-    <None Remove="..\SoftinuxBase.Barebone\node_modules\datatables.net\js\jquery.dataTables.js" />
-    <None Remove="..\SoftinuxBase.Barebone\node_modules\datatables.net-bs\js\dataTables.bootstrap.js" />
-    <None Remove="..\SoftinuxBase.Barebone\node_modules\datatables.net-select\js\dataTables.select.min.js" />
-    <None Remove="..\SoftinuxBase.Barebone\node_modules\datatables.net-bs\css\dataTables.bootstrap.css" />
-    <None Remove="..\SoftinuxBase.Barebone\node_modules\datatables.net-select-bs\css\select.bootstrap.min.css" />
-    <None Remove="..\SoftinuxBase.Barebone\node_modules\datatables.net-buttons\js\dataTables.buttons.min.js" />
-    <None Remove="..\SoftinuxBase.Barebone\node_modules\datatables.net-buttons-bs\js\buttons.bootstrap.min.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="..\SoftinuxBase.Barebone\node_modules\datatables.net\js\jquery.dataTables.js" />
-    <EmbeddedResource Include="..\SoftinuxBase.Barebone\node_modules\datatables.net-bs\js\dataTables.bootstrap.js" />
-    <EmbeddedResource Include="..\SoftinuxBase.Barebone\node_modules\datatables.net-select\js\dataTables.select.min.js" />
-    <EmbeddedResource Include="..\SoftinuxBase.Barebone\node_modules\datatables.net-buttons\js\dataTables.buttons.min.js" />
-    <EmbeddedResource Include="..\SoftinuxBase.Barebone\node_modules\datatables.net-buttons-bs\js\buttons.bootstrap.min.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="..\SoftinuxBase.Barebone\node_modules\datatables.net-bs\css\dataTables.bootstrap.css" />
-    <EmbeddedResource Include="..\SoftinuxBase.Barebone\node_modules\datatables.net-select-bs\css\select.bootstrap.min.css" />
-    <EmbeddedResource Include="..\SoftinuxBase.Barebone\node_modules\datatables.net-buttons-bs\css\buttons.bootstrap.min.css" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\SoftinuxBase.Barebone\SoftinuxBase.Barebone.csproj" />
     <ProjectReference Include="..\SoftinuxBase.Infrastructure\SoftinuxBase.Infrastructure.csproj" />
     <ProjectReference Include="..\SoftinuxBase.Security.Data.EntityFramework\SoftinuxBase.Security.Data.EntityFramework.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.1-beta.61">
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
     <DotNetCliToolReference Include="BundlerMinifier.Core" Version="2.9.406" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Shared\Components\GrantPermissions\" />
   </ItemGroup>
 </Project>

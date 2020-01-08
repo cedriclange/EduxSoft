@@ -5,12 +5,13 @@ using System.Threading.Tasks;
 using ExtCore.Data.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SoftinuxBase.Security.Common;
 using SoftinuxBase.Security.Common.Attributes;
 using SoftinuxBase.Security.Common.Enums;
 
 namespace SoftinuxBase.Security.Controllers
 {
-    [PermissionRequirement(Permission.Admin)]
+    [PermissionRequirement(Permission.Admin, Constants.SoftinuxBaseSecurity)]
     public class AdministrationController : Infrastructure.ControllerBase
     {
         private readonly ILogger _logger;
@@ -22,7 +23,7 @@ namespace SoftinuxBase.Security.Controllers
         /// <param name="loggerFactory_">application logger factory instance.</param>
         public AdministrationController(IStorage storage_, ILoggerFactory loggerFactory_) : base(storage_, loggerFactory_)
         {
-            _logger = _loggerFactory.CreateLogger(GetType().FullName);
+            _logger = LoggerFactory.CreateLogger(GetType().FullName);
             _logger.LogInformation("oups");
         }
 
@@ -31,7 +32,8 @@ namespace SoftinuxBase.Security.Controllers
         /// </summary>
         /// <returns>administration Index view.</returns>
         [HttpGet]
-        public async Task<IActionResult> Index()
+        [ActionName("Index")]
+        public async Task<IActionResult> IndexAsync()
         {
             return await Task.Run(() => View("Administration"));
         }

@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SoftinuxBase.Security.Common;
-using SoftinuxBase.Security.Common.Enums;
 using SoftinuxBase.Security.Data.Abstractions;
+using SoftinuxBase.Security.Data.Entities;
 using SoftinuxBase.SeedDatabase;
+using Permission = SoftinuxBase.Security.Common.Enums.Permission;
 
 namespace CommonTest
 {
@@ -44,7 +45,7 @@ namespace CommonTest
         {
             var repo = DatabaseFixture.Storage.GetRepository<IPermissionRepository>();
 
-            if (repo.All().FirstOrDefault(p_ => p_.Id == Permission.Admin.ToString()) != null)
+            if (repo.All().FirstOrDefault(p_ => p_.Name == Permission.Admin.GetPermissionName()) != null)
             {
                 return;
             }
@@ -57,13 +58,14 @@ namespace CommonTest
                 // create a permission object out of the enum value
                 SoftinuxBase.Security.Data.Entities.Permission permission = new SoftinuxBase.Security.Data.Entities.Permission()
                 {
-                    Id = PermissionHelper.GetPermissionName(p),
+                    // Automatic ID
                     Name = PermissionHelper.GetPermissionName(p)
                 };
 
                 repo.Create(permission);
             }
 
+            // Can't use the async Storage.SaveAsync() because this method is called in class constructor - TODO use a helper pattern?
             DatabaseFixture.Storage.Save();
         }
 
@@ -71,27 +73,27 @@ namespace CommonTest
         /// Create the standard base roles, if they don't exist.
         /// Similar to SoftinuxBase.SeedDatabase extension's job.
         /// </summary>
-        /// <returns></returns>
-        protected async Task CreateBaseRolesIfNeeded()
+        /// <returns>The asynchronous Task.</returns>
+        protected async Task CreateBaseRolesIfNeededAsync()
         {
             // Get the list of the role from the enum
             Role[] roles = (Role[])Enum.GetValues(typeof(Role));
 
             foreach (var r in roles)
             {
-                await CreateRoleIfNotExisting(r.GetRoleName());
+                await CreateRoleIfNotExistingAsync(r.GetRoleName());
             }
         }
 
         /// <summary>
-        /// Create a roles, if it doesn't exist
+        /// Create a role, if it doesn't exist
         /// Similar to SoftinuxBase.SeedDatabase extension's job.
         /// </summary>
-        /// <param name="roleName_"></param>
-        /// <returns></returns>
-        protected async Task CreateRoleIfNotExisting(string roleName_)
+        /// <param name="roleName_">Role name.</param>
+        /// <returns>The asynchronous Task.</returns>
+        protected async Task CreateRoleIfNotExistingAsync(string roleName_)
         {
-            // create an identity role object out of the enum value
+            // create an identity role object
             IdentityRole<string> identityRole = new IdentityRole<string>
             {
                 // Automatic ID
@@ -107,6 +109,26 @@ namespace CommonTest
                     throw new Exception($"Could not create missing role: {identityRole.Name}");
                 }
             }
+        }
+
+        /// <summary>
+        /// Create a user, if it doesn't exist
+        /// Similar to SoftinuxBase.SeedDatabase extension's job.
+        /// </summary>
+        /// <param name="userName_">User name/first name/last name/part of e-mail.</param>
+        /// <returns>The asynchronous Task.</returns>
+        protected async Task<User> CreateUserAsync(string userName_)
+        {
+            // create an identity user object
+            User user = new User { FirstName = userName_, LastName = userName_, UserName = userName_, Email = $"{userName_}@softinux.com", LockoutEnabled = false };
+            var result = await DatabaseFixture.UserManager.CreateAsync(user);
+
+            if (!result.Succeeded)
+            {
+                throw new Exception($"Could not create user with name: {userName_}");
+            }
+
+            return user;
         }
 
         protected void CleanTrackedEntities()

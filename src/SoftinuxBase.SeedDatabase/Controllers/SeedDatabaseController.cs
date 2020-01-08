@@ -9,6 +9,7 @@ using ExtCore.Data.Abstractions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SoftinuxBase.Security.Common;
 using SoftinuxBase.Security.Data.Abstractions;
 using SoftinuxBase.Security.Data.Entities;
 
@@ -48,25 +49,26 @@ namespace SoftinuxBase.SeedDatabase.Controllers
         }
 
         [HttpPost]
-        [Route("/dev/seed/CreateUser")]
-        public async Task<IActionResult> CreateUser()
+        [ActionName("CreateUser")]
+        [Route("/dev/seed/create-user")]
+        public async Task<IActionResult> CreateUserAsync()
         {
             try
             {
                 // Save ROLES
-                await SaveRoles();
+                await SaveRolesAsync();
+
+                // Save USERS and USER-ROLE
+                await SaveUsersAsync();
 
                 // Save PERMISSIONS
-                await SaveUsers();
-
-                // Save PERMISSIONS
-                SavePermissions();
+                await SavePermissionsAsync();
 
                 // Save USER-PERMISSION
-                SaveUserPermission();
+                await SaveUserPermissionAsync();
 
                 // Save ROLE-PERMISSION
-                SaveRolePermission();
+                await SaveRolePermissionAsync();
 
                 return Ok("Demo database initialization Ok.");
             }
@@ -79,8 +81,7 @@ namespace SoftinuxBase.SeedDatabase.Controllers
         /// <summary>
         /// Save users and fill _createdUsers class variable;.
         /// </summary>
-        /// <returns></returns>
-        private async Task SaveUsers()
+        private async Task SaveUsersAsync()
         {
             // our default user
             User johnUser = new User
@@ -113,13 +114,16 @@ namespace SoftinuxBase.SeedDatabase.Controllers
             };
 
             bool firstUser = true;
+            IdentityResult result;
+            string roleName;
+
             foreach (var user in new[] { johnUser, janeUser, paulUser })
             {
                 // add the user to the database if it doesn't already exist
                 if (await _userManager.FindByEmailAsync(user.Email) == null)
                 {
                     // WARNING: Do Not check in credentials of any kind into source control
-                    var result = await _userManager.CreateAsync(user, password: "123_Password");
+                    result = await _userManager.CreateAsync(user, password: "123_Password");
 
                     // return 500 if it fails
                     if (!result.Succeeded)
@@ -130,13 +134,13 @@ namespace SoftinuxBase.SeedDatabase.Controllers
                     }
 
                     // Assign roles to user. John has Admin role, Jane and Paul have User role
-                    string role = firstUser ? "Administrator" : "User";
-                    result = await _userManager.AddToRolesAsync(user, new[] { role });
+                    roleName = (firstUser ? Role.Administrator : Role.User).GetRoleName();
+                    result = await _userManager.AddToRolesAsync(user, new[] { roleName });
 
                     // return 500 if fails
                     if (!result.Succeeded)
                     {
-                        string msg = $"(SaveUsers: UserManager.AddToRolesAsync) Error adding user to role, user: {user.Email}, role: {role}";
+                        string msg = $"(SaveUsers: UserManager.AddToRolesAsync) Error adding user to role, user: {user.Email}, role: {roleName}";
                         _logger.LogCritical(msg);
                         throw new Exception(msg);
                     }
@@ -151,8 +155,7 @@ namespace SoftinuxBase.SeedDatabase.Controllers
         /// <summary>
         /// Save the roles and populate _createdRoles class variable.
         /// </summary>
-        /// <returns></returns>
-        private async Task SaveRoles()
+        private async Task SaveRolesAsync()
         {
             // Get the list of the role from the enum
             Role[] roles = (Role[])Enum.GetValues(typeof(Role));
@@ -183,24 +186,24 @@ namespace SoftinuxBase.SeedDatabase.Controllers
         }
 
         /// <summary>
-        ///
+        /// TODO.
         /// </summary>
-        private void SaveUserPermission()
+        private async Task SaveUserPermissionAsync()
         {
             var adminPermissionId = _createdPermissions.FirstOrDefault(p_ => p_.Name == Permission.Admin.ToString())?.Id;
 
             // John (admin user): Admin (globally)
-            SaveUserPermission(adminPermissionId, _createdUsers[0]);
+            await SaveUserPermissionAsync(adminPermissionId, _createdUsers[0]);
 
             // Paul : Admin (Chinook)
             // Note: Chinook is not distributed
-            SaveUserPermission(adminPermissionId, _createdUsers[2], "Chinook");
+            await SaveUserPermissionAsync(adminPermissionId, _createdUsers[2], "Chinook");
         }
 
         /// <summary>
-        ///
+        /// TODO.
         /// </summary>
-        private void SaveRolePermission()
+        private async Task SaveRolePermissionAsync()
         {
             var adminRoleId = _createdRoles.FirstOrDefault(r_ => r_.Name == Role.Administrator.ToString())?.Id;
             var userRoleId = _createdRoles.FirstOrDefault(r_ => r_.Name == Role.User.ToString())?.Id;
@@ -211,23 +214,22 @@ namespace SoftinuxBase.SeedDatabase.Controllers
             var readPermissionId = _createdPermissions.FirstOrDefault(p_ => p_.Name == Permission.Read.ToString())?.Id;
 
             // 1. Admin role: admin (globally)
-            SaveRolePermission(adminRoleId, adminPermissionId);
+            await SaveRolePermissionAsync(adminRoleId, adminPermissionId);
 
             // 2. Admin role: admin (Chinook)
-            SaveRolePermission(adminRoleId, adminPermissionId, "Chinook");
+            await SaveRolePermissionAsync(adminRoleId, adminPermissionId, "Chinook");
 
             // 3. User role: write (globally)
-            SaveRolePermission(userRoleId, writePermissionId);
+            await SaveRolePermissionAsync(userRoleId, writePermissionId);
 
             // 4. Anonymous role: read (globally)
-            SaveRolePermission(anonymousRoleId, readPermissionId);
+            await SaveRolePermissionAsync(anonymousRoleId, readPermissionId);
         }
 
         /// <summary>
         /// Save the roles and populate _createdPermissions class variable.
         /// </summary>
-        /// <returns></returns>
-        private void SavePermissions()
+        private async Task SavePermissionsAsync()
         {
             Permission[] permissions = (Permission[])Enum.GetValues(typeof(Permission));
 
@@ -246,7 +248,7 @@ namespace SoftinuxBase.SeedDatabase.Controllers
 
             try
             {
-                _storage.Save();
+                await _storage.SaveAsync();
                 _logger.LogInformation("\"Saving permissions ok.\"");
             }
             catch (Exception e)
@@ -258,13 +260,12 @@ namespace SoftinuxBase.SeedDatabase.Controllers
         }
 
         /// <summary>
-        ///
+        /// TODO.
         /// </summary>
-        /// <param name="permissionId_"></param>
-        /// <param name="user_"></param>
-        /// <param name="scope_"></param>
-        /// <returns></returns>
-        private void SaveUserPermission(string permissionId_, User user_, string scope_ = null)
+        /// <param name="permissionId_">permission ID.</param>
+        /// <param name="user_">Application user.</param>
+        /// <param name="extension_">Extension name.</param>
+        private async Task SaveUserPermissionAsync(string permissionId_, User user_, string extension_ = null)
         {
             if (!string.IsNullOrWhiteSpace(permissionId_) && user_ != null)
             {
@@ -273,9 +274,9 @@ namespace SoftinuxBase.SeedDatabase.Controllers
                     UserId = user_.Id,
                     PermissionId = permissionId_
                 };
-                if (!string.IsNullOrWhiteSpace(scope_))
+                if (!string.IsNullOrWhiteSpace(extension_))
                 {
-                    userPermission.Extension = scope_;
+                    userPermission.Extension = extension_;
                 }
 
                 _storage.GetRepository<IUserPermissionRepository>().Create(userPermission);
@@ -283,7 +284,7 @@ namespace SoftinuxBase.SeedDatabase.Controllers
 
             try
             {
-                _storage.Save();
+                await _storage.SaveAsync();
                 _logger.LogInformation($"\"Saving user-permission {permissionId_} ok.\"");
             }
             catch (Exception e)
@@ -295,13 +296,12 @@ namespace SoftinuxBase.SeedDatabase.Controllers
         }
 
         /// <summary>
-        ///
+        /// TODO.
         /// </summary>
-        /// <param name="roleId_"></param>
-        /// <param name="permissionId_"></param>
-        /// <param name="extension_"></param>
-        /// <returns></returns>
-        private void SaveRolePermission(string roleId_, string permissionId_, string extension_ = null)
+        /// <param name="roleId_">Role Id.</param>
+        /// <param name="permissionId_">Permission ID.</param>
+        /// <param name="extension_">Extension name.</param>
+        private async Task SaveRolePermissionAsync(string roleId_, string permissionId_, string extension_ = null)
         {
             if ((!string.IsNullOrWhiteSpace(permissionId_)) && (!string.IsNullOrWhiteSpace(roleId_)))
             {
@@ -320,8 +320,8 @@ namespace SoftinuxBase.SeedDatabase.Controllers
 
             try
             {
-                _storage.Save();
-                _logger.LogInformation($"\"Saving role-permission: permission: {permissionId_}, to role: {roleId_}, for extension: {extension_ ?? "SoftinuxBase.Security"} ok.\"");
+                await _storage.SaveAsync();
+                _logger.LogInformation($"\"Saving role-permission: permission: {permissionId_}, to role: {roleId_}, for extension: {extension_ ?? Security.Common.Constants.SoftinuxBaseSecurity} ok.\"");
             }
             catch (Exception e)
             {

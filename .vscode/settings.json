@@ -2,15 +2,19 @@
     "editor.formatOnSave": false,
     "dotnet-test-explorer.testProjectPath": "./src/Testing/Unit/SecurityTest",
     "dotnet-test-explorer.enableTelemetry": false,
-    "dotnet-test-explorer.pathForResultFile": "${workspaceFolder}",
+    //"dotnet-test-explorer.pathForResultFile": "${workspaceFolder}",
     "editor.showFoldingControls": "always",
     "editor.fontLigatures": true,
     "editor.renderControlCharacters": false,
     "workbench.sideBar.location": "left",
     "workbench.activityBar.visible": true,
     "workbench.colorCustomizations": {
-        //"editorGutter.background": "#1e1e1e",
+        //"editor.lineHighlightBorder": "#fdfccf",
+        //"editor.lineHighlightBackground": "#fafafa",
         "tab.activeBorder": "#FFA500",
+        "activityBar.background": "#561332",
+        "titleBar.activeBackground": "#791B45",
+        "titleBar.activeForeground": "#FEFCFD"
     },
     // Controls if quick suggestions should show up while typing
     "editor.quickSuggestions": {
@@ -47,5 +51,22 @@
         "typescriptreact",
         "yml"
     ],
-    "cSpell.enabled": false
+    "cSpell.enabled": false,
+    "eslint.options": {
+        "configFile": ".eslintrc.json"
+    },
+    "editor.wordWrap": "on",
+    "editor.wordWrapColumn": 350,
+    "editor.tokenColorCustomizations": {
+        "textMateRules": [
+            {
+                "scope" : [
+                    "keyword.control.flow.return.cs"
+                ],
+                "settings": {
+                    "fontStyle": "bold"
+                }
+            }
+        ]
+    }
 }

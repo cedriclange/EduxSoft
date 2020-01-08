@@ -6,8 +6,8 @@ using ExtCore.Data.EntityFramework;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using SoftinuxBase.Infrastructure.Util;
 using SoftinuxBase.Security.Data.Entities;
 
 namespace SoftinuxBase.WebApplication
@@ -18,21 +18,19 @@ namespace SoftinuxBase.WebApplication
     /// </summary>
     public class ApplicationStorageContext : IdentityDbContext<User, IdentityRole<string>, string>, IStorageContext
     {
-        public DbSet<Permission> Permission { get; set; }
-        public DbSet<RolePermission> RolePermission { get; set; }
-        public DbSet<UserPermission> UserPermission { get; set; }
-
-        public ApplicationStorageContext(DbContextOptions options_)
+        protected ApplicationStorageContext(DbContextOptions options_)
             : base(options_)
         {
         }
 
+        public DbSet<Permission> Permission { get; set; }
+        public DbSet<RolePermission> RolePermission { get; set; }
+        public DbSet<UserPermission> UserPermission { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder_)
         {
 #if DEBUG
-            ILoggerFactory loggerFactory = new LoggerFactory();
-            loggerFactory.AddProvider(new EfLoggerProvider());
-            base.OnConfiguring(optionsBuilder_.EnableSensitiveDataLogging().UseLoggerFactory(loggerFactory));
+            base.OnConfiguring(optionsBuilder_.EnableSensitiveDataLogging().UseLoggerFactory(GetLoggerFactory()));
 #endif
         }
 
@@ -40,6 +38,15 @@ namespace SoftinuxBase.WebApplication
         {
             base.OnModelCreating(modelBuilder_);
             this.RegisterEntities(modelBuilder_);
+        }
+
+        private ILoggerFactory GetLoggerFactory()
+        {
+            IServiceCollection serviceCollection = new ServiceCollection();
+            serviceCollection.AddLogging(builder =>
+                   builder.AddProvider(new EfLoggerProvider())
+                          .AddFilter(DbLoggerCategory.Database.Command.Name, LogLevel.Debug));
+            return serviceCollection.BuildServiceProvider().GetService<ILoggerFactory>();
         }
     }
 }

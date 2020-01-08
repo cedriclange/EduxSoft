@@ -8,14 +8,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using SoftinuxBase.Security.Common;
 using SoftinuxBase.Security.Common.Attributes;
 using SoftinuxBase.Security.Data.Entities;
-
 using Permission = SoftinuxBase.Security.Common.Enums.Permission;
 
 namespace SoftinuxBase.Security.Controllers
 {
-    [PermissionRequirement(Permission.Admin)]
+    [PermissionRequirement(Permission.Admin, Constants.SoftinuxBaseSecurity)]
     public class ListUsersController : Infrastructure.ControllerBase
     {
         // private readonly ILogger _logger;
@@ -24,12 +24,12 @@ namespace SoftinuxBase.Security.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="ListUsersController"/> class.
         /// </summary>
-        /// <param name="storage_">application storage instance.</param>
+        /// <param name="storage_">Storage interface provided by services container.</param>
         /// <param name="users_">.Net Identity user from UserManager.</param>
         /// <param name="loggerFactory_">application logger instance.</param>
         public ListUsersController(IStorage storage_, UserManager<User> users_, ILoggerFactory loggerFactory_) : base(storage_, loggerFactory_)
         {
-            // _logger = _loggerFactory.CreateLogger(GetType().FullName);
+            // _logger = LoggerFactory.CreateLogger(GetType().FullName);
             _usersmanager = users_;
         }
 
@@ -37,9 +37,10 @@ namespace SoftinuxBase.Security.Controllers
         /// List users.
         /// </summary>
         /// <returns>return listing view of users.</returns>
-        [Route("administration/listusers")]
+        [Route("administration/list-users")]
         [HttpGet]
-        public async Task<IActionResult> Index()
+        [ActionName("Index")]
+        public async Task<IActionResult> IndexAsync()
         {
             ViewBag.userList = _usersmanager.Users.Select(u_ => new SelectListItem { Text = u_.UserName, Value = u_.Id }).ToList();
             return await Task.Run(() => View("ListUsers"));
@@ -50,9 +51,10 @@ namespace SoftinuxBase.Security.Controllers
         /// </summary>
         /// <param name="userId_">string represent user Id.</param>
         /// <returns>return edit user view.</returns>
-        [Route("administration/listusers/edituser")]
+        [Route("administration/list-users/edit-user")]
         [HttpGet]
-        public async Task<IActionResult> EditUser(string userId_)
+        [ActionName("EditUser")]
+        public async Task<IActionResult> EditUserAsync(string userId_)
         {
             var user = _usersmanager.Users.FirstOrDefault(u_ => u_.Id == userId_);
             return await Task.Run(() => View("Admin_Edit_User", user));

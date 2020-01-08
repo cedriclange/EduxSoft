@@ -24,13 +24,13 @@ namespace SoftinuxBase.Security.Controllers
         /// </summary>
         /// <param name="storage_">Storage interface provided by services container.</param>
         /// <param name="loggerFactory_">Logger factory interface provided by services container.</param>
-        /// <param name="userManager_">identity framework user manager instance.</param>
-        /// <param name="signInManager_">identity framework signin manager instance.</param>
+        /// <param name="userManager_">User manager instance.</param>
+        /// <param name="signInManager_">Signin manager instance.</param>
         public AccountController(IStorage storage_, ILoggerFactory loggerFactory_, UserManager<User> userManager_, SignInManager<User> signInManager_) : base(storage_, loggerFactory_)
         {
             _userManager = userManager_;
             _signInManager = signInManager_;
-            _logger = _loggerFactory.CreateLogger(GetType().FullName);
+            _logger = LoggerFactory.CreateLogger(GetType().FullName);
         }
 
         /// <summary>
@@ -50,9 +50,10 @@ namespace SoftinuxBase.Security.Controllers
         /// <param name="signUp_">signUp model from view.</param>
         /// <returns>Index view (signup was ok) or SignUp view (signup failed).</returns>
         [HttpPost]
+        [ActionName("SignUp")]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SignUp(SignUpViewModel signUp_)
+        public async Task<IActionResult> SignUpAsync(SignUpViewModel signUp_)
         {
             // Check required fields, if any empty return to signup page
             if (!ModelState.IsValid)
@@ -70,8 +71,9 @@ namespace SoftinuxBase.Security.Controllers
         /// </summary>
         /// <returns>SignIn view.</returns>
         [HttpGet]
+        [ActionName("SignIn")]
         [AllowAnonymous]
-        public async Task<IActionResult> SignIn()
+        public async Task<IActionResult> SignInAsync()
         {
             return await Task.Run(() => View());
         }
@@ -82,9 +84,10 @@ namespace SoftinuxBase.Security.Controllers
         /// <param name="signIn_">signIp model from view.</param>
         /// <returns>Index view (signin was ok) or SignIn view (signin failed).</returns>
         [HttpPost]
+        [ActionName("SignIn")]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SignIn(SignInViewModel signIn_)
+        public async Task<IActionResult> SignInAsync(SignInViewModel signIn_)
         {
             // Check required fields, if any empty return to login page
             if (!ModelState.IsValid)
@@ -143,7 +146,8 @@ namespace SoftinuxBase.Security.Controllers
         /// </summary>
         /// <returns>SignIn (login) view.</returns>
         [HttpGet]
-        public async Task<IActionResult> SignOut()
+        [ActionName("SignOut")]
+        public async Task<IActionResult> SignOutAsync()
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
@@ -155,7 +159,8 @@ namespace SoftinuxBase.Security.Controllers
         /// </summary>
         /// <returns>AccessDenied view.</returns>
         [HttpGet]
-        public async Task<IActionResult> AccessDenied()
+        [ActionName("AccessDenied")]
+        public async Task<IActionResult> AccessDeniedAsync()
         {
             return await Task.Run(() => View());
         }
@@ -167,7 +172,7 @@ namespace SoftinuxBase.Security.Controllers
         [HttpGet]
         public IActionResult CreateUser()
         {
-            // TODO to code: create this as async method
+            // TODO to code: create this as async method CreateUserAsync with ActionName decorator
             // return user creation view
             return null;
         }
@@ -175,7 +180,7 @@ namespace SoftinuxBase.Security.Controllers
         [HttpPost]
         public IActionResult SaveUser(string userId_)
         {
-            // TODO to code: create this as async method
+            // TODO to code: create this as async method SaveUserAsync with ActionName decorator
             return null;
         }
 
@@ -185,7 +190,8 @@ namespace SoftinuxBase.Security.Controllers
         /// <param name="userId_">user Id value.</param>
         /// <returns>User view.</returns>
         [HttpGet]
-        public async Task<IActionResult> UpdateProfile(string userId_)
+        [ActionName("UpdateProfile")]
+        public async Task<IActionResult> UpdateProfileAsync(string userId_)
         {
             return await Task.Run(() => View("User"));
         }
@@ -196,10 +202,11 @@ namespace SoftinuxBase.Security.Controllers
         /// <param name="userName_">user name value.</param>
         /// <returns>True/false as JSON.</returns>
         [HttpPost]
+        [ActionName("CheckUserNameExist")]
         [AllowAnonymous]
-        public async Task<IActionResult> CheckUserNameExist(string userName_)
+        public async Task<IActionResult> CheckUserNameExistAsync(string userName_)
         {
-            return await Task.Run(() => Json(!RegisterUser.IsUserExist(_storage, userName_, _userManager)));
+            return await Task.Run(() => Json(!RegisterUser.IsUserExist(Storage, userName_, _userManager)));
         }
     }
 }

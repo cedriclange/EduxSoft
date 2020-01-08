@@ -5,8 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using ExtCore.Data.EntityFramework;
 using Microsoft.EntityFrameworkCore;
+using SoftinuxBase.Security.Common;
 using SoftinuxBase.Security.Data.Abstractions;
 using SoftinuxBase.Security.Data.Entities;
+
+// [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("SoftinuxBase.Security")]
+// [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("SecurityTest")]
+// [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("SoftinuxBase.SeedDatabase")]
 
 namespace SoftinuxBase.Security.Data.EntityFramework
 {
@@ -15,6 +20,16 @@ namespace SoftinuxBase.Security.Data.EntityFramework
         public UserPermission FindBy(string userId_, string permissionId_)
         {
             return dbSet.FirstOrDefault(e_ => e_.UserId == userId_ && e_.PermissionId == permissionId_);
+        }
+
+        /// <inheritdoc />
+        public IEnumerable<UserPermission> FindBy(string extensionName_, Common.Enums.Permission level_)
+        {
+            var data = from userPermission in storageContext.Set<UserPermission>()
+                   join permission in storageContext.Set<Permission>() on userPermission.PermissionId equals permission.Id
+                   where userPermission.Extension == extensionName_ && permission.Name == level_.GetPermissionName()
+                   select userPermission;
+            return data.ToList();
         }
 
         public IEnumerable<UserPermission> FilteredByUserId(string userId_)
@@ -45,5 +60,5 @@ namespace SoftinuxBase.Security.Data.EntityFramework
         {
             dbSet.RemoveRange(dbSet.ToArray());
         }
-      }
+    }
 }

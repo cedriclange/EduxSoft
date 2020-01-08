@@ -15,16 +15,20 @@ namespace SoftinuxBase.Barebone.ViewComponents
 
         public StyleSheetsViewComponent(ILoggerFactory loggerFactory_) : base(loggerFactory_)
         {
-            _logger = _loggerFactory.CreateLogger(GetType().FullName);
+            _logger = LoggerFactory.CreateLogger(GetType().FullName);
         }
 
         public Task<IViewComponentResult> InvokeAsync()
         {
+#if DEBUG
             Stopwatch watch = new Stopwatch();
             watch.Start();
+#endif
             StyleSheetsViewModel model = new StyleSheetsViewModelFactory().Create();
+#if DEBUG
             watch.Stop();
             _logger.LogInformation("Time to build stylesheets list by StyleSheetsViewModelFactory: " + watch.ElapsedMilliseconds + " ms");
+#endif
             return Task.FromResult<IViewComponentResult>(View(model));
         }
     }

@@ -5,22 +5,56 @@ using System.Collections.Generic;
 using ExtCore.Data.Abstractions;
 using SoftinuxBase.Security.Data.Entities;
 
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("SoftinuxBase.Security")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("SoftinuxBase.Security.Data.EntityFramework")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("SoftinuxBase.SeedDatabase")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("CommonTest")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("SecurityTest")]
 namespace SoftinuxBase.Security.Data.Abstractions
 {
-    public interface IPermissionRepository : IRepository
+    /// <summary>
+    /// An interface for performing queries related to <see cref="Permission"/>.
+    /// </summary>
+    internal interface IPermissionRepository : IRepository
     {
+        /// <summary>
+        /// Read all the permissions.
+        /// </summary>
+        /// <returns><see cref="Permission"/>.</returns>
         IEnumerable<Permission> All();
-        void Create(Permission entity_);
-        void Edit(Permission entity_);
-        void Delete(string entityId_);
 
         /// <summary>
-        /// Every permission with its scope, linked to user, user's roles.
+        /// Create a new <see cref="Permission"/>.
         /// </summary>
-        /// <param name="userId_"></param>
-        /// <returns></returns>
+        /// <param name="entity_">the <see cref="Permission"/> to persist.</param>
+        void Create(Permission entity_);
+
+        /// <summary>
+        /// Update a <see cref="Permission"/>.
+        /// </summary>
+        /// <param name="entity_">the modified <see cref="Permission"/> to persist.</param>
+        void Edit(Permission entity_);
+
+        /// <summary>
+        /// Delete a <see cref="Permission"/>.
+        /// </summary>
+        /// <param name="permissionId_">the ID of the <see cref="Permission"/> to delete.</param>
+        void Delete(string permissionId_);
+
+        /// <summary>
+        /// Read the permissions levels for every extension, related to an <see cref="User"/>.
+        /// Permission levels are inherited from user's roles and user own permissions.
+        /// User's own permission levels have highest priority to define effective permission levels.
+        /// </summary>
+        /// <param name="userId_">user ID.</param>
+        /// <returns>Set of <see cref="SoftinuxBase.Security.Common.Enums.Permission"/> associated to extensions.</returns>
         HashSet<KeyValuePair<SoftinuxBase.Security.Common.Enums.Permission, string>> AllForUser(string userId_);
 
-        Permission Find(Security.Common.Enums.Permission permissionValue_);
+        /// <summary>
+        /// Find a <see cref="Permission"/> by <see cref="Common.Enums.Permission"/> value.
+        /// </summary>
+        /// <param name="permissionLevel_">Permission level.</param>
+        /// <returns><see cref="Permission"/>.</returns>
+        Permission Find(Security.Common.Enums.Permission permissionLevel_);
     }
 }
